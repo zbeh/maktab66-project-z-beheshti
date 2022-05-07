@@ -9,4 +9,5 @@ import Login from './Admin/Login'
 import Panel from "./Admin/Panel"
 import Quantity from "./Admin/Quantity"
 import Orders from "./Admin/Orders"
-export{Home,Checkout,Pay,Purchase,AllProducts,Products,Login,Panel,Quantity,Orders,ProductDetail}
+import ProtectedRoute from "./Admin/ProtectedRoute"
+export{Home,Checkout,Pay,Purchase,AllProducts,Products,Login,Panel,Quantity,Orders,ProductDetail,ProtectedRoute}

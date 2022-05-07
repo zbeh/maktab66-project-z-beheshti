@@ -1,7 +1,7 @@
-import React from 'react'
-
-export default function Store() {
-  return (
-    <div>Store</div>
-  )
-}
+import { configureStore } from '@reduxjs/toolkit'
+ import adminReducer from '../Reducer/Reducer'
+export default configureStore({
+  reducer: {
+    admin: adminReducer,
+  },
+})
