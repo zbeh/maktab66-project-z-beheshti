@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { useNavigate,useLocation } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux'
-import { login} from '../../Redux/Reducer/Reducer'
+import { login} from '../../../Redux/Reducer/Reducer'
 import { Link } from 'react-router-dom';
 export default function Login() {
   const [admin,setAdmin]=useState()
@@ -20,7 +20,7 @@ export default function Login() {
   console.log(location.state);
   const redirectPath = location.state?.from.pathname || '/admin-panel'
   useEffect(()=>{
-    axios.get('http://localhost:3002/whoami').then(res=>setAdmin(res.data))
+    axios.get('http://localhost:3002/auth/login').then(res=>setAdmin(res.data))
     .catch(error=>console.log(error))
   },[])
   console.log(admin);
