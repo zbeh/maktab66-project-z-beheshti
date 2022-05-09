@@ -1,6 +1,11 @@
+@font-face {
+  font-family: 'main';
+  src: url("../Assets/Font/IRAN\ Sans\ Regular\ \(mmrostami.blog.ir\).ttf");
+}
 body{
   margin:0;
   box-sizing: border-box;
+  font-family: main !important;
 }
 .container{
   width: 80%;
