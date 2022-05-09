@@ -12,6 +12,7 @@ import { login} from '../../../Redux/Reducer/Reducer'
 import { Link } from 'react-router-dom';
 export default function Login() {
   const [admin,setAdmin]=useState()
+  const [token,setToken] = useState()
   const state = useSelector((state) => state.admin.isLogin)
   console.log(state);
   const dispatch = useDispatch()
@@ -20,7 +21,7 @@ export default function Login() {
   console.log(location.state);
   const redirectPath = location.state?.from.pathname || '/admin-panel'
   useEffect(()=>{
-    axios.get('http://localhost:3002/auth/login').then(res=>setAdmin(res.data))
+    axios.get('http://localhost:3002/whoami').then(res=>setAdmin(res.data))
     .catch(error=>console.log(error))
   },[])
   console.log(admin);
@@ -36,15 +37,19 @@ export default function Login() {
         .required('پر کردن این فیلد اجباری است'),
     }),
     onSubmit: values => {
+     
       if(values.userName===admin.username && values.password===admin.password){
-       
+        axios.post('http://localhost:3002/auth/login',admin).then(res=>{console.log(res.data)})
+        localStorage.setItem("token",JSON.stringify(token))
         dispatch(login(true))
         navigate(redirectPath , {replace:true})
       }
+      
     }
+   
   });
   return (
-   
+  
     <Box className='container'
       sx={{
         marginTop:"5rem",
