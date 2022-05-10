@@ -5,21 +5,7 @@ import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-=======
->>>>>>> feat-produtsPanel
-    <App />
-=======
-  <StrictMode>
-=======
-
->>>>>>> feat-produtsPanel
-     <App />
-   
->>>>>>> feat-produtsPanel
+<App/>
 );
 
 // If you want to start measuring performance in your app, pass a function
