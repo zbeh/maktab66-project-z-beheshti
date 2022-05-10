@@ -28,7 +28,7 @@ export default function Products() {
     <>
     <div className={`${productsStyles.tcontainer,productsStyles.mt3} container d-flex justify-between`}>
     <Typography variant="h6" component="div" className={`${productsStyles.fbold} container`}> مدیریت کالاها </Typography>
-      <Button variant="contained" className={productsStyles.fbold,productsStyles.add}>افزودن کالا</Button>
+      <Button variant="contained" className={productsStyles.add}>افزودن کالا</Button>
 
     </div>
     
