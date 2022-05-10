@@ -4,7 +4,7 @@ import AllProducts from "./User/AllProducts"
 import Pay from './User/Pay'
 import Purchase from './User/Purchase'
 import ProductDetail from "./User/ProductDetail"
-import Products from './Admin/Products'
+import Products from './Admin/products/Products'
 import Login from './Admin/Login'
 import Panel from "./Admin/Panel"
 import Quantity from "./Admin/Quantity"
