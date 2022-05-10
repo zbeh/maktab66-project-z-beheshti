@@ -7,14 +7,17 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 >>>>>>> feat-produtsPanel
     <App />
 =======
   <StrictMode>
+=======
+
+>>>>>>> feat-produtsPanel
      <App />
-  </StrictMode>
    
 >>>>>>> feat-produtsPanel
 );
