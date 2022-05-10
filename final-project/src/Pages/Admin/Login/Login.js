@@ -39,8 +39,7 @@ export default function Login() {
     onSubmit: values => {
      
       if(values.userName===admin.username && values.password===admin.password){
-        axios.post('http://localhost:3002/auth/login',admin).then(res=>{console.log(res.data)})
-        localStorage.setItem("token",JSON.stringify(token))
+        axios.post('http://localhost:3002/auth/login',admin).then(res=>localStorage.setItem("token",res.data.token))
         dispatch(login(true))
         navigate(redirectPath , {replace:true})
       }
