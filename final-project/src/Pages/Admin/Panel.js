@@ -12,7 +12,6 @@ export default function Panel() {
   dispatch(setData(info))
   return (
     <div>
-      
       <Outlet/>
     </div>
   )

@@ -4,8 +4,13 @@ import AllProducts from "./User/AllProducts"
 import Pay from './User/Pay'
 import Purchase from './User/Purchase'
 import ProductDetail from "./User/ProductDetail"
+<<<<<<< HEAD
 import Products from './Admin/Products'
 import Login from './Admin/Login/Login'
+=======
+import Products from './Admin/products/Products'
+import Login from './Admin/Login'
+>>>>>>> feat-produtsPanel
 import Panel from "./Admin/Panel"
 import Quantity from "./Admin/Quantity/Quantity"
 import Orders from "./Admin/Orders"
