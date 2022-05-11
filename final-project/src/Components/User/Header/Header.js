@@ -14,7 +14,7 @@ export default function Header() {
          <a href='/' className={headerStyles.home}>صفحه اصلی</a>
       </div>
         <nav className={`${headerStyles.navContainer} d-flex justify-between align-center`}>
-        <Link to='/login'>
+        <Link to='/admin-panel'>
            <h3 style={{color:"white"}}>مدیریت </h3>
            </Link>
            <div className='d-flex align-center'>

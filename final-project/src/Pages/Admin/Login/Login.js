@@ -43,9 +43,9 @@ export default function Login() {
         dispatch(login(true))
         let milliseconds = new Date().getTime();
         navigate(redirectPath , {replace:true})
-        // setTimeout(()=>{
-        //   navigate('/')
-        // },(milliseconds+720000))
+        setTimeout(()=>{
+          navigate('/')
+        },(milliseconds+720000))
       }
       
     }
