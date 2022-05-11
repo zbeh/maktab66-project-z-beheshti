@@ -10,6 +10,6 @@ import Products from './Admin/products/Products'
 // import Login from './Admin/Login'
 import Panel from "./Admin/Panel"
 import Quantity from "./Admin/Quantity/Quantity"
-import Orders from "./Admin/Orders"
+import Orders from "./Admin/Orders/Orders"
 import ProtectedRoute from "./Admin/ProtectedRoute"
 export{Home,Checkout,Pay,Purchase,AllProducts,Products,Login,Panel,Quantity,Orders,ProductDetail,ProtectedRoute}
