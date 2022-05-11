@@ -6,23 +6,35 @@ import { useSelector } from 'react-redux';
 import productsStyles from './productsStyles.module.scss'
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-const columns = [
-  { field: 'image', headerName: 'تصویر کالا', width: 130,height:550 ,sortable: false, renderCell:(param)=><img src={param.value} width="100px" height="100px" style={{objctFit:"cover"}}/>},
-  { field: 'name', headerName: 'نام کالا', width: 130 ,  sortable: false, },
-  { field: 'category', headerName: 'دسته بندی', width: 130 },
-  { field: 'edit', headerName: '', width: 130 ,  sortable: false,},
 
-];
 export default function Products() {
+
+  const columns = [
+    { field: 'image', headerName: 'تصویر کالا', width: 130,height:550 ,sortable: false, renderCell:(param)=><img src={param.value} width="100px" height="100px" style={{objctFit:"cover"}}/>},
+    { field: 'name', headerName: 'نام کالا', width: 130 ,  sortable: false, },
+    { field: 'category', headerName: 'دسته بندی', width: 200 ,},
+    // { field: 'edit', headerName: '', width: 130 ,  sortable: false,},
+    {field: "edit" , headerName:"", renderCell: (cellValues) => (<><EditIcon onClick={handleEdit} style={{padding:"0 1rem"}}/> <DeleteIcon onClick={handleDelete} style={{padding:"0 1rem"}}/></>)}
+  
+  ];
+  // (<Button variant="contained" color="primary" onClick={(event) => {handleClick(event, cellValues);}}>P</Button>
+
     const data = useSelector(state=>state.data)
+    const category = useSelector(state=>state.category)
+    const subCategory = useSelector(state=>state.subCategory)
+    console.log(category);
+    console.log(subCategory);
     const [row,setRow]=useState([])
-     
     useEffect(()=>{
-      data?.map(d=>setRow(r=>[...r,{id:d.id,image:"http://localhost:3002/files/"+d.thumbnail,name:d.name,category:d.category,edit:"ویرایش - حذف"}]))
+      data?.map(d=>setRow(r=>[...r,{id:d.id,image:"http://localhost:3002/files/"+d.thumbnail,name:d.name,category:(category.find(i=>i.id==d.category)).name+" /"+(subCategory.find(item=>item.categoryId==d.category)).name}]))
     },[])
     console.log(data);
-      
-     
+     const handleEdit = ()=>{
+       alert('edit')
+     }
+     const handleDelete = ()=>{
+       alert ('del')
+     }
 
   return (
     <>

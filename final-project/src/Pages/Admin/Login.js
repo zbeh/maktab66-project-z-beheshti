@@ -39,7 +39,11 @@ export default function Login() {
       if(values.userName===admin.username && values.password===admin.password){
        
         dispatch(login(true))
+        let milliseconds = new Date().getTime();
         navigate(redirectPath , {replace:true})
+        // setTimeout(()=>{
+        //   navigate('/')
+        // },(milliseconds+720000))
       }
     }
   });
