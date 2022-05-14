@@ -41,11 +41,11 @@ export default function Login() {
       if(values.userName===admin.username && values.password===admin.password){
         axios.post('http://localhost:3002/auth/login',admin).then(res=>localStorage.setItem("token",res.data.token))
         dispatch(login(true))
-        let milliseconds = new Date().getTime();
+        // let milliseconds = new Date().getTime();
         navigate(redirectPath , {replace:true})
-        setTimeout(()=>{
-          navigate('/')
-        },(milliseconds+720000))
+        // setTimeout(()=>{
+        //   navigate('/')
+        // },(milliseconds+720000))
       }
       
     }
