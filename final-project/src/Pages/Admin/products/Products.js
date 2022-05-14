@@ -26,8 +26,9 @@ export default function Products() {
     console.log(subCategory);
     const [row,setRow]=useState([])
     useEffect(()=>{
-      data?.map(d=>setRow(r=>[...r,{id:d.id,image:"http://localhost:3002/files/"+d.thumbnail,name:d.name,category:(category.find(i=>i.id==d.category)).name+" /"+(subCategory.find(item=>item.id==d.subCategory))}]))
+      data?.map(d=>setRow(r=>[...r,{id:d.id,image:"http://localhost:3002/files/"+d.thumbnail,name:d.name,category:(category.find(i=>i.id==d.category)).name}]))
     },[])
+    // +" /"+(subCategory.find(item=>item.id==d.category))
     console.log(data);
      const handleEdit = ()=>{
        alert('edit')
