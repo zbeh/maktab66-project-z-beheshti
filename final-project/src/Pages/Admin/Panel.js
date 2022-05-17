@@ -6,6 +6,7 @@ import { setData } from '../../Redux/Reducer/DataReducer'
 import { addOrders } from '../../Redux/Reducer/OrderReducer'
 import { setCategory } from '../../Redux/Reducer/CategoryReducer'
 import { setSub } from '../../Redux/Reducer/SubReducer'
+import {Typography,Box} from "@mui/material";
 export default function Panel() {
   const dispatch = useDispatch()
   const[info,setInfo]= useState()
@@ -29,6 +30,12 @@ export default function Panel() {
   
   return (
     <div>
+      <Box sx={{ borderBottom: 1, borderColor: "divider" ,display:"flex", justifyContent:"space-between" , width:"40%"}}>
+            <Link to='products'>کالاها</Link> 
+            <Link to='quantity'> موجودی و قیمت ها</Link> 
+            <Link to='orders'>سفارش ها</Link>
+            
+          </Box>
       <Outlet/>
     </div>
   )
