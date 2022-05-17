@@ -88,7 +88,9 @@ export default function Products() {
             }}
             style={{ padding: "0 1rem" }}
           />{" "}
-          <DeleteIcon onClick={handleDelete} style={{ padding: "0 1rem" }} />
+          <DeleteIcon 
+            onClick ={(event)=>{handleDelete(event,cellValues)}}
+            style={{ padding: "0 1rem" }} />
         </>
       ),
     },
@@ -106,6 +108,8 @@ export default function Products() {
   const [editors, setEditors] = useState();
   const [editModal, setEditModal] = useState(false);
   const [editItem, setEditItem] = useState();
+  const [gallery,setGallery] = useState([])
+  const [thumbnail,setThumbnail]= useState([])
   useEffect(() => {
     data?.map((d) =>
       setRow((r) => [
@@ -124,15 +128,21 @@ export default function Products() {
   const handleEdit = (event, param) => {
     event.stopPropagation();
     const selectedItem = param.row;
-    setEditItem(selectedItem);
+    const targetItem = data.find(item=>item.id==selectedItem.id)
+    setEditItem(targetItem)
     setEditModal(true);
     // const filteredItems=data.filter(item=>item.id!==id)
     // const selectedItem = data.find(item=>item.id===id)
     // console.log(selectedItem);
   };
-  console.log(editItem);
-  const handleDelete = () => {
-    axios.delete(`http://localhost:3002/products/${editItem.id}`)
+   const handleChangeedit = (e)=>{
+     setEditItem(e.target.value)
+   }
+   console.log(editItem);
+  const handleDelete = (event,param) => {
+    event.stopPropagation();
+    const targetItem = param.row
+    axios.delete(`http://localhost:3002/products/${targetItem.id}`)
     .then(res => {
       console.log(res);
       console.log(res.data);
@@ -148,24 +158,50 @@ export default function Products() {
   };
 
   console.log(editors);
-  console.log(info);
+ 
 
   const handleChange = (e) => {
-    if (e.target.name !== "thumbnail") {
-      setInfo({
-        ...info,
-        [e.target.name]: e.target.value,
-        description: editors,
-      });
-    } else {
-      setInfo({ ...info, [e.target.name]: e.target.files[0] });
+    console.log('change');
+    if (e.target.name == "thumbnail") {
+      console.log(e.target.files);
+      const imgData = new FormData()
+      imgData.append('image',e.target.files[0])
+      axios.post("http://localhost:3002/upload",imgData).then(res=>{
+        console.log(res);
+        const {data:{filename}}=res
+        setThumbnail(filename)
+      })
+    } else if(e.target.name == "images" ) {
+      const data=(e.target.files) 
+      const len = data.length
+      console.log("data",data[0]);
+      console.log("data1",data[1]);
+      const galleryData = new FormData()
+      for (let x = 0; x < len; x++) {
+        galleryData.append("images",data[x])
+      }
+      const fd = galleryData.getAll('images')
+      console.log(fd)
+      // getAll('images')
+      axios.post("http://localhost:3002/upload",galleryData).then(res=>{
+        console.log(res);
+      })
+       // const {data:{filename}}=res
+        // setGallery([...gallery,filename])
+    } else{
+      setInfo({...info,[e.target.name]:e.target.value,description: editors})
     }
   };
+   console.log(info);
+  console.log("t",thumbnail)
+  console.log("g",gallery);
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("form");
     const formData = new FormData();
     Object.entries(info)?.map((item) => formData.append(item[0], item[1]));
+    formData.append("thumbnail",thumbnail)
+    formData.append('images',[...gallery])
     console.log(formData);
     axios
       .post("http://localhost:3002/products", formData)
@@ -180,7 +216,15 @@ export default function Products() {
       .put(`http://localhost:3002/products/${editItem.id}`, Object.fromEntries(formData) )
       .then((res) => console.log(res));
   };
-
+  // const handleGallery = (e)=>{
+  //   setGallery( [...gallery,e.target.files] )
+  // }
+  // const handleThumbnail =(e)=>{
+  //   console.log(e.target.files);
+  //   setThumbnail([...thumbnail,e.target.files])
+  // }
+  //  console.log(gallery);
+  //  console.log(thumbnail);
   return (
     <>
       <div
@@ -236,7 +280,8 @@ export default function Products() {
                   accept="image"
                   name="thumbnail"
                   className={productsStyles.label}
-                  onChange={handleChange}
+                  onChange={ handleChange}
+                  
                 />
                 <label className={productsStyles.label}>نام کالا</label>
                 <input
@@ -244,6 +289,20 @@ export default function Products() {
                   name="name"
                   className={productsStyles.label}
                   onChange={handleChange}
+                />
+                 <label className={productsStyles.label}> قیمت(تومان)</label>
+                <input
+                  type="text"
+                  name="price"
+                  className={productsStyles.label}
+                  onChange={handleChange}
+                />
+                <label className={productsStyles.label}>تعداد کالا</label>
+                <input
+                  type="number"
+                  name="count"
+                  className={productsStyles.label}
+                  onChange={handleChange }
                 />
                 <label className={productsStyles.label}>دسته بندی</label>
                 <select
@@ -255,6 +314,26 @@ export default function Products() {
                   <option value="1">لباس زنانه</option>
                   <option value="2">لباس مردانه</option>
                 </select>
+                <label className={productsStyles.label}>زیر دسته بندی</label>
+                <select
+                  onChange={handleChange}
+                  className={productsStyles.label}
+                  name="subCategory"
+                >
+                  <option defaultValue>زیر دسته بندی</option>
+                  {subCategory?.map((s,i)=><option value={s.id} key={i} >{s.name}</option>)}
+                </select>
+                <label className={productsStyles.label}> تصاویر گالری</label>
+                <input
+                  type="file"
+                  accept="image"
+                  name="images"
+                  multiple
+                  className={productsStyles.label}
+                  onChange={ handleChange }
+                />
+
+
                 <label>توضیحات</label>
 
                 <CKEditor
@@ -302,29 +381,77 @@ export default function Products() {
                   accept="image"
                   name="thumbnail"
                   className={productsStyles.label}
-                  onChange={handleChange}
+                  onChange={handleChangeedit}
                 />
+                <div  >
+                  <img src={`http://localhost:3002/files/${editItem.thumbnail}`} width="70px" height="70px"/>
+                </div>
+
                 <label className={productsStyles.label}>نام کالا</label>
                 <input
                   type="text"
                   name="name"
                   className={productsStyles.label}
-                  onChange={handleChange}
+                  onChange={handleChangeedit}
+                  value={editItem.name}
                 />
+
+                <label className={productsStyles.label}> قیمت(تومان)</label>
+                <input
+                  type="text"
+                  name="price"
+                  className={productsStyles.label}
+                  onChange={handleChangeedit}
+                  value={editItem.price}
+                />
+                <label className={productsStyles.label}>تعداد کالا</label>
+                <input
+                  type="text"
+                  name="count"
+                  className={productsStyles.label}
+                  onChange={handleChangeedit }
+                  value={editItem.count}
+                />
+
+
                 <label className={productsStyles.label}>دسته بندی</label>
                 <select
-                  onChange={handleChange}
+                  onChange={handleChangeedit}
                   className={productsStyles.label}
                   name="category"
+                  value={editItem.category}
                 >
                   <option defaultValue>دسته بندی</option>
                   <option value="1">لباس زنانه</option>
                   <option value="2">لباس مردانه</option>
                 </select>
+                
+                <label className={productsStyles.label}>زیر دسته بندی</label>
+                <select
+                  onChange={handleChangeedit}
+                  className={productsStyles.label}
+                  name="subCategory"
+                  value={editItem.subCategory}
+                >
+                  <option defaultValue>زیر دسته بندی</option>
+                  {subCategory?.map((s,i)=><option value={s.id} key={i} >{s.name}</option>)}
+                </select>
+                <label className={productsStyles.label}> تصاویر گالری</label>
+                <input
+                  type="file"
+                  accept="image"
+                  name="images"
+                  multiple
+                  className={productsStyles.label}
+                  onChange={ handleChangeedit }
+                />
+         
+
                 <label>توضیحات</label>
 
                 <CKEditor
                   editor={ClassicEditor}
+                  data={editItem.description}
                   onChange={(event, editor) => {
                     setEditors(editor.getData());
                   }}
