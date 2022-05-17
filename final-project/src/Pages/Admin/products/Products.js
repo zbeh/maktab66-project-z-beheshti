@@ -16,7 +16,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
     padding: theme.spacing(2),
@@ -88,9 +88,12 @@ export default function Products() {
             }}
             style={{ padding: "0 1rem" }}
           />{" "}
-          <DeleteIcon 
-            onClick ={(event)=>{handleDelete(event,cellValues)}}
-            style={{ padding: "0 1rem" }} />
+          <DeleteIcon
+            onClick={(event) => {
+              handleDelete(event, cellValues);
+            }}
+            style={{ padding: "0 1rem" }}
+          />
         </>
       ),
     },
@@ -102,14 +105,17 @@ export default function Products() {
   const subCategory = useSelector((state) => state.subCategory);
   console.log(category);
   console.log(subCategory);
+  const navigate = useNavigate();
   const [row, setRow] = useState([]);
   const [open, setOpen] = useState(false);
   const [info, setInfo] = useState();
   const [editors, setEditors] = useState();
   const [editModal, setEditModal] = useState(false);
   const [editItem, setEditItem] = useState();
-  const [gallery,setGallery] = useState([])
-  const [thumbnail,setThumbnail]= useState([])
+  const [value, setValue] = useState();
+  // const [gallery,setGallery] = useState([])
+  const [thumbnail, setThumbnail] = useState([]);
+  const [newThumbnail, setNewThumbnail] = useState([]);
   useEffect(() => {
     data?.map((d) =>
       setRow((r) => [
@@ -128,25 +134,63 @@ export default function Products() {
   const handleEdit = (event, param) => {
     event.stopPropagation();
     const selectedItem = param.row;
-    const targetItem = data.find(item=>item.id==selectedItem.id)
-    setEditItem(targetItem)
+    const targetItem = data.find((item) => item.id == selectedItem.id);
+    setEditItem(targetItem);
     setEditModal(true);
-    // const filteredItems=data.filter(item=>item.id!==id)
-    // const selectedItem = data.find(item=>item.id===id)
-    // console.log(selectedItem);
   };
-   const handleChangeedit = (e)=>{
-     setEditItem(e.target.value)
-   }
-   console.log(editItem);
-  const handleDelete = (event,param) => {
+  const handleChangeedit = (e) => {
+    if (e.target.name == "thumbnail") {
+      console.log(e.target.files);
+      const fd = new FormData();
+      fd.append("image", e.target.files[0]);
+      axios.post("http://localhost:3002/upload", fd).then((res) => {
+        console.log(res);
+        const {
+          data: { filename },
+        } = res;
+        setNewThumbnail(filename);
+      });
+    } else {
+      setValue({
+        ...value,
+        [e.target.name]: e.target.value,
+        description: editors,
+      });
+    }
+  };
+  console.log(value);
+  const handleEditproduct = (e) => {
+    e.preventDefault();
+    console.log("form");
+    const formData = new FormData();
+    Object.entries(value)?.map((item) => formData.append(item[0], item[1]));
+    formData.append("thumbnail", thumbnail);
+    console.log(formData);
+    axios
+      .patch(`http://localhost:3002/products/${editItem.id}`, value, {
+        headers: { "Content-Type": "application/json", token: token },
+      })
+      .then((res) => console.log(res))
+      .catch((err) => {
+        if (err.response.status == 401) {
+          localStorage.removeItem("token");
+          navigate("/login");
+        }
+        console.log(err);
+        console.log(token);
+      });
+  };
+
+  console.log(editItem);
+  const handleDelete = (event, param) => {
     event.stopPropagation();
-    const targetItem = param.row
-    axios.delete(`http://localhost:3002/products/${targetItem.id}`)
-    .then(res => {
-      console.log(res);
-      console.log(res.data);
-    })
+    const targetItem = param.row;
+    axios
+      .delete(`http://localhost:3002/products/${targetItem.id}`)
+      .then((res) => {
+        console.log(res);
+        console.log(res.data);
+      });
   };
 
   const handleClick = () => {
@@ -158,64 +202,77 @@ export default function Products() {
   };
 
   console.log(editors);
- 
 
   const handleChange = (e) => {
-    console.log('change');
+    console.log("change");
     if (e.target.name == "thumbnail") {
       console.log(e.target.files);
-      const imgData = new FormData()
-      imgData.append('image',e.target.files[0])
-      axios.post("http://localhost:3002/upload",imgData).then(res=>{
+      const imgData = new FormData();
+      imgData.append("image", e.target.files[0]);
+      axios.post("http://localhost:3002/upload", imgData).then((res) => {
         console.log(res);
-        const {data:{filename}}=res
-        setThumbnail(filename)
-      })
-    } else if(e.target.name == "images" ) {
-      const data=(e.target.files) 
-      const len = data.length
-      console.log("data",data[0]);
-      console.log("data1",data[1]);
-      const galleryData = new FormData()
-      for (let x = 0; x < len; x++) {
-        galleryData.append("images",data[x])
-      }
-      const fd = galleryData.getAll('images')
-      console.log(fd)
+        const {
+          data: { filename },
+        } = res;
+        setThumbnail(filename);
+      });
+      // } else if(e.target.name == "images" ) {
+      //   const data=(e.target.files)
+      //   console.log(data);
+      //   const len = data.length
+      //   console.log("data",data[0]);
+      //   console.log("data1",data[1]);
+      //   var dstring = Object.values(data).map(d=> {
+      //     return(d.name);
+      // }).join(',')
+      //   const formData = new FormData()
+      //   // for (let x = 0; x < len; x++) {
+      //   //   galleryData.append("images",e.target.files[x])
+      //   // }
+      //   console.log(dstring);
+      //   formData.append("images",JSON.stringify(dstring))
+      //   const fd = formData.get('images')
+      //   console.log(fd)
+      //   axios.post("http://localhost:3002/upload",formData,{ headers: { "Content-Type": "multipart/form-data" }}).then(res=>{
+      //       console.log(res);
+      //   })
+
       // getAll('images')
-      axios.post("http://localhost:3002/upload",galleryData).then(res=>{
-        console.log(res);
-      })
-       // const {data:{filename}}=res
-        // setGallery([...gallery,filename])
-    } else{
-      setInfo({...info,[e.target.name]:e.target.value,description: editors})
+
+      // const {data:{filename}}=res
+      // setGallery([...gallery,filename])
+    } else {
+      setInfo({
+        ...info,
+        [e.target.name]: e.target.value,
+        description: editors,
+      });
     }
   };
-   console.log(info);
-  console.log("t",thumbnail)
-  console.log("g",gallery);
+  console.log(info);
+  console.log("t", thumbnail);
+  // console.log("g",gallery);
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("form");
     const formData = new FormData();
     Object.entries(info)?.map((item) => formData.append(item[0], item[1]));
-    formData.append("thumbnail",thumbnail)
-    formData.append('images',[...gallery])
+    formData.append("thumbnail", thumbnail);
+    // formData.append('images',[...gallery])
     console.log(formData);
     axios
       .post("http://localhost:3002/products", formData)
       .then((res) => console.log(res));
   };
-  const handleEditproduct = (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    Object.entries(info).map((item) => formData.append(item[0], item[1]));
-    console.log(formData.get("name"));
-    axios
-      .put(`http://localhost:3002/products/${editItem.id}`, Object.fromEntries(formData) )
-      .then((res) => console.log(res));
-  };
+  // const handleEditproduct = (e) => {
+  //   e.preventDefault();
+  //   const formData = new FormData();
+  //   Object.entries(info).map((item) => formData.append(item[0], item[1]));
+  //   console.log(formData.get("name"));
+  //   axios
+  //     .put(`http://localhost:3002/products/${editItem.id}`, Object.fromEntries(formData) )
+  //     .then((res) => console.log(res));
+  // };
   // const handleGallery = (e)=>{
   //   setGallery( [...gallery,e.target.files] )
   // }
@@ -280,8 +337,7 @@ export default function Products() {
                   accept="image"
                   name="thumbnail"
                   className={productsStyles.label}
-                  onChange={ handleChange}
-                  
+                  onChange={handleChange}
                 />
                 <label className={productsStyles.label}>نام کالا</label>
                 <input
@@ -290,7 +346,7 @@ export default function Products() {
                   className={productsStyles.label}
                   onChange={handleChange}
                 />
-                 <label className={productsStyles.label}> قیمت(تومان)</label>
+                <label className={productsStyles.label}> قیمت(تومان)</label>
                 <input
                   type="text"
                   name="price"
@@ -302,7 +358,7 @@ export default function Products() {
                   type="number"
                   name="count"
                   className={productsStyles.label}
-                  onChange={handleChange }
+                  onChange={handleChange}
                 />
                 <label className={productsStyles.label}>دسته بندی</label>
                 <select
@@ -321,9 +377,13 @@ export default function Products() {
                   name="subCategory"
                 >
                   <option defaultValue>زیر دسته بندی</option>
-                  {subCategory?.map((s,i)=><option value={s.id} key={i} >{s.name}</option>)}
+                  {subCategory?.map((s, i) => (
+                    <option value={s.id} key={i}>
+                      {s.name}
+                    </option>
+                  ))}
                 </select>
-                <label className={productsStyles.label}> تصاویر گالری</label>
+                {/* <label className={productsStyles.label}> تصاویر گالری</label>
                 <input
                   type="file"
                   accept="image"
@@ -331,8 +391,7 @@ export default function Products() {
                   multiple
                   className={productsStyles.label}
                   onChange={ handleChange }
-                />
-
+                /> */}
 
                 <label>توضیحات</label>
 
@@ -383,8 +442,12 @@ export default function Products() {
                   className={productsStyles.label}
                   onChange={handleChangeedit}
                 />
-                <div  >
-                  <img src={`http://localhost:3002/files/${editItem.thumbnail}`} width="70px" height="70px"/>
+                <div>
+                  <img
+                    src={`http://localhost:3002/files/${editItem.thumbnail}`}
+                    width="70px"
+                    height="70px"
+                  />
                 </div>
 
                 <label className={productsStyles.label}>نام کالا</label>
@@ -393,7 +456,8 @@ export default function Products() {
                   name="name"
                   className={productsStyles.label}
                   onChange={handleChangeedit}
-                  value={editItem.name}
+                  // value={value}
+                  defaultValue={editItem.name}
                 />
 
                 <label className={productsStyles.label}> قیمت(تومان)</label>
@@ -402,39 +466,42 @@ export default function Products() {
                   name="price"
                   className={productsStyles.label}
                   onChange={handleChangeedit}
-                  value={editItem.price}
+                  defaultValue={editItem.price}
                 />
                 <label className={productsStyles.label}>تعداد کالا</label>
                 <input
                   type="text"
                   name="count"
                   className={productsStyles.label}
-                  onChange={handleChangeedit }
-                  value={editItem.count}
+                  onChange={handleChangeedit}
+                  defaultValue={editItem.count}
                 />
-
 
                 <label className={productsStyles.label}>دسته بندی</label>
                 <select
                   onChange={handleChangeedit}
                   className={productsStyles.label}
                   name="category"
-                  value={editItem.category}
+                  defaultValue={editItem.category}
                 >
                   <option defaultValue>دسته بندی</option>
                   <option value="1">لباس زنانه</option>
                   <option value="2">لباس مردانه</option>
                 </select>
-                
+
                 <label className={productsStyles.label}>زیر دسته بندی</label>
                 <select
                   onChange={handleChangeedit}
                   className={productsStyles.label}
                   name="subCategory"
-                  value={editItem.subCategory}
+                  defaultValue={editItem.subCategory}
                 >
                   <option defaultValue>زیر دسته بندی</option>
-                  {subCategory?.map((s,i)=><option value={s.id} key={i} >{s.name}</option>)}
+                  {subCategory?.map((s, i) => (
+                    <option value={s.id} key={i}>
+                      {s.name}
+                    </option>
+                  ))}
                 </select>
                 <label className={productsStyles.label}> تصاویر گالری</label>
                 <input
@@ -443,9 +510,8 @@ export default function Products() {
                   name="images"
                   multiple
                   className={productsStyles.label}
-                  onChange={ handleChangeedit }
+                  onChange={handleChangeedit}
                 />
-         
 
                 <label>توضیحات</label>
 
