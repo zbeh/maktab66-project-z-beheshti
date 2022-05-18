@@ -13,7 +13,7 @@ export default function AppRoutes() {
       <Route path ="/checkout" element={<UserLayout><Checkout/></UserLayout>}/>
       <Route path='/pay' element={<UserLayout><Pay/></UserLayout>}/>
       <Route path='/purchase' element={<UserLayout><Purchase/></UserLayout>}/>
-      <Route path='/all-products' element={<UserLayout><AllProducts/></UserLayout>}/>
+      <Route path='/all-products' element={<UserLayout sidebar={true}><AllProducts/></UserLayout>}/>
       <Route path='/admin-panel' element={<ProtectedRoute><AdminLayout><Panel/></AdminLayout></ProtectedRoute> }>
         <Route path='products' element={ <Products/>}/>
         <Route path='quantity' element={ <Quantity/>}/>

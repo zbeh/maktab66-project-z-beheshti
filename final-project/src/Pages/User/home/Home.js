@@ -15,7 +15,7 @@ export default function Home() {
   return (
     <>
     <div className={`${homeStyles.homeContainer} container`}>
-      <Link to={`/all-products`} onClick={handleClick} className={homeStyles.link}>{cat?.find(c=>c.id==1).name}</Link>
+      <Link to="/all-products" state={{from:`${1}`}} onClick={handleClick} className={homeStyles.link}>{cat?.find(c=>c.id==1).name}</Link>
       <div className={`${homeStyles.cardConatiner} `}>
         {(data?.filter(d=>d.category == 1))?.slice(0, 8).map(d=>(
         <>
@@ -34,7 +34,7 @@ export default function Home() {
          ) )}
 
       </div>
-      <Link to={`/all-products/`} className={homeStyles.link}>{cat?.find(c=>c.id==2).name}</Link>
+      <Link to="/all-products" state={{from:`${2}`}} className={homeStyles.link}>{cat?.find(c=>c.id==2).name}</Link>
       <div className={`${homeStyles.cardConatiner} `}>
         {(data?.filter(d=>d.category == 2))?.slice(0, 8).map(d=>(
         <>

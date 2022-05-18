@@ -1,6 +1,6 @@
 import Home from "./User/home/Home"
 import Checkout from './User/Checkout'
-import AllProducts from "./User/AllProducts"
+import AllProducts from "./User/Allproducts/AllProducts"
 import Pay from './User/Pay'
 import Purchase from './User/Purchase'
 import ProductDetail from "./User/ProductDetail"
