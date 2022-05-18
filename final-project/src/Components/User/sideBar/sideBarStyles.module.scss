@@ -1,0 +1,22 @@
+@import '../../../Style/variables';
+.title{
+    padding: 1rem 0rem;
+    & a{
+        color: $primary !important;
+        font-size: x-large;
+        font-weight: bolder;
+        
+    }
+    & p{
+        color: $primary !important;
+        font-size: large !important;
+        font-weight: bold !important; 
+    }
+    
+}
+.sideContainer{
+    width: 15% !important;
+}
+.sub{
+    margin: 2rem 0rem !important;
+}

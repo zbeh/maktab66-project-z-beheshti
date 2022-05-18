@@ -23,6 +23,9 @@ a{
 .justify-between{
   justify-content: space-between;
 }
+.justify-center{
+  justify-content: center;
+}
 .align-center{
   align-items:center;
 }
@@ -32,3 +35,11 @@ a{
 .MuiTablePagination-actions{
   direction: ltr !important;
 }
+.MuiPagination-ul {
+  justify-content: center !important;
+  & svg{
+    transform: rotate(180deg);
+  }
+  
+}
+
