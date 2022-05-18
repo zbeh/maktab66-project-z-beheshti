@@ -9,6 +9,7 @@ import Button from '@mui/material/Button';
 import { useNavigate,useLocation } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux'
 import { login} from '../../../Redux/Reducer/Reducer'
+
 import { Link } from 'react-router-dom';
 export default function Login() {
   const [admin,setAdmin]=useState()
@@ -39,8 +40,11 @@ export default function Login() {
     onSubmit: values => {
      
       if(values.userName===admin.username && values.password===admin.password){
-        axios.post('http://localhost:3002/auth/login',admin).then(res=>localStorage.setItem("token",res.data.token))
+        axios.post('http://localhost:3002/auth/login',admin).then(res=>{localStorage.setItem("token",res.data.token)})
+        // const token = localStorage.getItem('token')
+        
         dispatch(login(true))
+
         // let milliseconds = new Date().getTime();
         navigate(redirectPath , {replace:true})
         // setTimeout(()=>{
