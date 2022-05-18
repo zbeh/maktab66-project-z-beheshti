@@ -1,4 +1,4 @@
-import Home from "./User/Home"
+import Home from "./User/home/Home"
 import Checkout from './User/Checkout'
 import AllProducts from "./User/AllProducts"
 import Pay from './User/Pay'
