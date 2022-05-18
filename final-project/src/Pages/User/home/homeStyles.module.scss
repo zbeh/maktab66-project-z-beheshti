@@ -1,0 +1,38 @@
+@import '../../../Style/variables';
+.link{
+   font-size: x-large !important;
+   font-weight: bold !important;
+   color:$primary !important;
+}
+.homeContainer{
+    margin-top: 3rem !important;
+}
+.cardConatiner{
+    margin-top: 2rem !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    padding: 2rem !important;
+}
+.card{
+    flex-basis: 21% ;
+    margin: 1.5rem 1rem;
+    width: 100%;
+    align-items: center;
+    box-shadow: 0px 0px 3px 0px #d3d1d1;
+    border-radius: 8px;
+    .contentContainer{
+        padding: 0rem 1rem;
+        font-size: large;
+        font-weight: bold;
+    }
+}
+.imgContainer{
+   
+    & img{
+        width: 100%;
+        object-fit: cover;
+    }
+   
+}
