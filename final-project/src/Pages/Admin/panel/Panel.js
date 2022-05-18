@@ -9,6 +9,7 @@ import { setSub } from '../../../Redux/Reducer/SubReducer'
 import {Box, linkClasses} from "@mui/material";
 import {Link} from 'react-router-dom'
 import panelStyles from './panelStyles.module.scss'
+import {setToken} from '../../../Redux/Reducer/TokenReducer'
 export default function Panel() {
   const dispatch = useDispatch()
   const[info,setInfo]= useState()
@@ -17,6 +18,7 @@ export default function Panel() {
   const [subcat,setSubCat]=useState()
   const token = localStorage.getItem('token')
   console.log(token);
+   dispatch(setToken(token))
   useEffect(()=>{
     axios.get('http://localhost:3002/products').then(res=>setInfo(res.data))
     axios.get('http://localhost:3002/orders',{params:{token:token}})
