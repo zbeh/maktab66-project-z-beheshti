@@ -2,11 +2,13 @@ import React, { useState, useEffect} from 'react'
 import { Outlet } from 'react-router' 
 import axios from "axios"
 import { useDispatch } from 'react-redux'
-import { setData } from '../../Redux/Reducer/DataReducer'
-import { addOrders } from '../../Redux/Reducer/OrderReducer'
-import { setCategory } from '../../Redux/Reducer/CategoryReducer'
-import { setSub } from '../../Redux/Reducer/SubReducer'
-import {Typography,Box} from "@mui/material";
+import { setData } from '../../../Redux/Reducer/DataReducer'
+import { addOrders } from '../../../Redux/Reducer/OrderReducer'
+import { setCategory } from '../../../Redux/Reducer/CategoryReducer'
+import { setSub } from '../../../Redux/Reducer/SubReducer'
+import {Box, linkClasses} from "@mui/material";
+import {Link} from 'react-router-dom'
+import panelStyles from './panelStyles.module.scss'
 export default function Panel() {
   const dispatch = useDispatch()
   const[info,setInfo]= useState()
@@ -30,12 +32,12 @@ export default function Panel() {
   
   return (
     <div>
-      <Box sx={{ borderBottom: 1, borderColor: "divider" ,display:"flex", justifyContent:"space-between" , width:"40%"}}>
-            <Link to='products'>کالاها</Link> 
-            <Link to='quantity'> موجودی و قیمت ها</Link> 
-            <Link to='orders'>سفارش ها</Link>
+      <Box className={`${panelStyles.bg} container`} sx={{ display:"flex", justifyContent:"space-between" ,padding:"1rem 2rem", width:"40%"}}>
+            <Link className={panelStyles.link} to='products'>کالاها</Link> 
+            <Link className={panelStyles.link} to='quantity'> موجودی و قیمت ها</Link> 
+            <Link className={panelStyles.link} to='orders'>سفارش ها</Link>
             
-          </Box>
+        </Box>
       <Outlet/>
     </div>
   )

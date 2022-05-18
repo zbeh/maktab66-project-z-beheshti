@@ -3,13 +3,9 @@ import AppRoutes from "./Routes/AppRoutes";
 import "./Style/index.scss";
 import { Provider } from "react-redux";
 import store from "./Redux/Store/Store";
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-const theme = createTheme({
-  typography: {
-    fontFamily: [
-      'main',
-    ].join(','),
-  },});
+import { ThemeProvider } from '@mui/material/styles';
+import {theme} from './Components/Theme'
+
 function App() {
   return (
     <div>
