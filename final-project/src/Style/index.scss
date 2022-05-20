@@ -33,7 +33,10 @@ a{
   display:none !important
 }
 .MuiTablePagination-actions{
-  direction: ltr !important;
+  & svg{
+    transform: rotate(180deg);
+  }
+  
 }
 .MuiPagination-ul {
   justify-content: center !important;
