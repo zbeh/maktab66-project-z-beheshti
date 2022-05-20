@@ -3,4 +3,5 @@ import Footer from "./User/footer/Footer";
 import SideBar from "./User/sideBar/SideBar";
 import Slider from "./User/Slider";
 import AdminNavBar from "./Admin/AdminNavBar";
-export {Header,Footer,SideBar,Slider,AdminNavBar}
+import Card from './User/Card/Card'
+export {Header,Footer,SideBar,Slider,AdminNavBar,Card}

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import {Link} from 'react-router-dom'
 import homeStyles from './homeStyles.module.scss'
+import { Card } from '../../../Components'
 export default function Home() {
   const [data,setData] = useState()
   const [cat,setCat] = useState()
@@ -19,17 +20,7 @@ export default function Home() {
       <div className={`${homeStyles.cardConatiner} `}>
         {(data?.filter(d=>d.category == 1))?.slice(0, 8).map(d=>(
         <>
-        <div className={homeStyles.card}>
-        <div className={homeStyles.imgContainer}>
-         <img src={`http://localhost:3002/files/${d.images[0]}` }/>
-        </div>
-         <div className={homeStyles.contentContainer} >
-          <p>{d.name}</p>
-         </div>
-         <div className={homeStyles.contentContainer}>
-           <p>{d.price} تومان</p>
-         </div>
-        </div>
+        <Card item ={d}/>
         </>
          ) )}
 

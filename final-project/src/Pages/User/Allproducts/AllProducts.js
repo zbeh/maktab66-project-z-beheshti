@@ -3,6 +3,7 @@ import { Box, CircularProgress, Pagination, Typography } from "@mui/material";
 import { useFetch } from "../../../Helper/USeFetch";
 import allproductsStyles from './allproductsStyles.module.scss'
 import { useLocation } from "react-router-dom";
+import { Card } from "../../../Components";
 const AllProducts = () => {
   const location = useLocation()
   const {from} = location.state
@@ -36,19 +37,9 @@ const AllProducts = () => {
         ) : (
           <>
           <div className={`${allproductsStyles.cardConatiner} `}>
-            {(data.data.filter(d=>d.category==from)).map((d) => (
+            {(data.data).map((d) => (
               <>
-                <div className={allproductsStyles.card}>
-                  <div className={allproductsStyles.imgContainer}>
-                    <img src={`http://localhost:3002/files/${d.images[0]}`} />
-                  </div>
-                  <div className={allproductsStyles.contentContainer}>
-                    <p>{d.name}</p>
-                  </div>
-                  <div className={allproductsStyles.contentContainer}>
-                    <p>{d.price} تومان</p>
-                  </div>
-                </div>
+                <Card item={d} />
               </>
             ))}
           </div>
