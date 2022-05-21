@@ -3,7 +3,7 @@ import Checkout from './User/Checkout'
 import AllProducts from "./User/Allproducts/AllProducts"
 import Pay from './User/Pay'
 import Purchase from './User/Purchase'
-import ProductDetail from "./User/ProductDetail"
+import ProductDetail from "./User/ProductDetail/ProductDetail"
 import Login from './Admin/Login/Login'
 import Products from './Admin/products/Products'
 import Panel from "./Admin/panel/Panel"
