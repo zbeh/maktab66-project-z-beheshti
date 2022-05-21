@@ -11,7 +11,7 @@ const AllProducts = () => {
   const limit = useMemo(() => 12, []);
   const [currentPage, setCurrentPage] = useState(1);
   const { data, loading, error } = useFetch(
-    `http://localhost:3002/products?_page=${currentPage}&_limit=${limit}}`
+    `http://localhost:3002/products?_page=${currentPage}&_limit=${limit}&category=${from}`
   );
   console.log(data);
 

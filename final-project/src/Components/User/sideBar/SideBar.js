@@ -13,7 +13,7 @@ export default function SideBar() {
     // <div className='container'>
          <aside className={`${sideBarStyles.sideContainer}`}>
         <div className={sideBarStyles.title}>
-        {cat?.filter((e, i) => i === 0).map((option, i) => (<Link to={`/all-products/${1}`} key={option.id}>{option.name}</Link>))}
+        {cat?.filter((e, i) => i === 0).map((option, i) => (<Link to="/all-products" state={{from:`${1}`}}  key={option.id}>{option.name}</Link>))}
           <div className={sideBarStyles.sub}>
             {sub?.map(s=><p key={s.id}>{s.name}</p>)}
           </div>
@@ -21,7 +21,7 @@ export default function SideBar() {
           
         </div>
         <div className={sideBarStyles.title}>
-        {cat?.filter((e, i) => i === 1).map((option, i) => (<Link to={`/all-products/${2}`}key={option.id}>{option.name}</Link>))}
+        {cat?.filter((e, i) => i === 1).map((option, i) => (<Link to="/all-products" state={{from:`${2}`}} key={option.id}>{option.name}</Link>))}
         <div className={sideBarStyles.sub}>
           {sub?.map(s=><p key={s.id}>{s.name}</p>)}
         </div>
