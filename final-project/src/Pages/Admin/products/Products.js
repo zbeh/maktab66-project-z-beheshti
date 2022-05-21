@@ -6,54 +6,9 @@ import { useSelector } from "react-redux";
 import productsStyles from "./productsStyles.module.scss";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import { styled } from "@mui/material/styles";
-import PropTypes from "prop-types";
-import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-  "& .MuiDialogContent-root": {
-    padding: theme.spacing(2),
-  },
-  "& .MuiDialogActions-root": {
-    padding: theme.spacing(1),
-  },
-}));
-
-const BootstrapDialogTitle = (props) => {
-  const { children, onClose, ...other } = props;
-
-  return (
-    <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
-      {children}
-      {onClose ? (
-        <IconButton
-          aria-label="close"
-          onClick={onClose}
-          sx={{
-            position: "absolute",
-            left: 8,
-            top: 8,
-            color: (theme) => theme.palette.grey[500],
-          }}
-        >
-          <CloseIcon />
-        </IconButton>
-      ) : null}
-    </DialogTitle>
-  );
-};
-
-BootstrapDialogTitle.propTypes = {
-  children: PropTypes.node,
-  onClose: PropTypes.func.isRequired,
-};
+import { Modal } from "../../../Components";
 
 export default function Products() {
   const token = localStorage.getItem("token");
@@ -282,6 +237,9 @@ export default function Products() {
   // }
   //  console.log(gallery);
   //  console.log(thumbnail);
+  const handleEditor = (event, editor) => {
+    setEditors(editor.getData());
+  };
   return (
     <>
       <div
@@ -318,102 +276,15 @@ export default function Products() {
       </div>
       {open ? (
         <div>
-          <BootstrapDialog
-            onClose={handleClose}
-            aria-labelledby="customized-dialog-title"
-            open={open}
-          >
-            <BootstrapDialogTitle
-              id="customized-dialog-title"
-              onClose={handleClose}
-            >
-              افزودن کالا
-            </BootstrapDialogTitle>
-            <DialogContent dividers>
-              <form onSubmit={handleSubmit}>
-                <label className={productsStyles.label}>تصویر کالا:</label>
-                <input
-                  type="file"
-                  accept="image"
-                  name="thumbnail"
-                  className={productsStyles.label}
-                  onChange={handleChange}
-                />
-                <label className={productsStyles.label}>نام کالا</label>
-                <input
-                  type="text"
-                  name="name"
-                  className={productsStyles.label}
-                  onChange={handleChange}
-                />
-                <label className={productsStyles.label}> قیمت(تومان)</label>
-                <input
-                  type="text"
-                  name="price"
-                  className={productsStyles.label}
-                  onChange={handleChange}
-                />
-                <label className={productsStyles.label}>تعداد کالا</label>
-                <input
-                  type="number"
-                  name="count"
-                  className={productsStyles.label}
-                  onChange={handleChange}
-                />
-                <label className={productsStyles.label}>دسته بندی</label>
-                <select
-                  onChange={handleChange}
-                  className={productsStyles.label}
-                  name="category"
-                >
-                  <option defaultValue>دسته بندی</option>
-                  <option value="1">لباس زنانه</option>
-                  <option value="2">لباس مردانه</option>
-                </select>
-                <label className={productsStyles.label}>زیر دسته بندی</label>
-                <select
-                  onChange={handleChange}
-                  className={productsStyles.label}
-                  name="subCategory"
-                >
-                  <option defaultValue>زیر دسته بندی</option>
-                  {subCategory?.map((s, i) => (
-                    <option value={s.id} key={i}>
-                      {s.name}
-                    </option>
-                  ))}
-                </select>
-                {/* <label className={productsStyles.label}> تصاویر گالری</label>
-                <input
-                  type="file"
-                  accept="image"
-                  name="images"
-                  multiple
-                  className={productsStyles.label}
-                  onChange={ handleChange }
-                /> */}
-
-                <label>توضیحات</label>
-
-                <CKEditor
-                  editor={ClassicEditor}
-                  onChange={(event, editor) => {
-                    setEditors(editor.getData());
-                  }}
-                />
-                <div className={productsStyles.btn}>
-                  <Button
-                    variant="contained"
-                    className={productsStyles.add}
-                    type="submit"
-                    onClose={handleClose}
-                  >
-                    ذخیره
-                  </Button>
-                </div>
-              </form>
-            </DialogContent>
-          </BootstrapDialog>
+          <Modal
+            title="افزودن کالا"
+            change={handleChange}
+            show={open}
+            close={handleClose}
+            submit={handleSubmit}
+            editor={handleEditor}
+            data={null}
+          />
         </div>
       ) : (
         ""
@@ -421,120 +292,15 @@ export default function Products() {
 
       {editModal ? (
         <div>
-          <BootstrapDialog
-            onClose={handleClose}
-            aria-labelledby="customized-dialog-title"
-            open={editModal}
-          >
-            <BootstrapDialogTitle
-              id="customized-dialog-title"
-              onClose={handleClose}
-            >
-              ویرایش کالا
-            </BootstrapDialogTitle>
-            <DialogContent dividers>
-              <form onSubmit={handleEditproduct}>
-                <label className={productsStyles.label}>تصویر کالا:</label>
-                <input
-                  type="file"
-                  accept="image"
-                  name="thumbnail"
-                  className={productsStyles.label}
-                  onChange={handleChangeedit}
-                />
-                <div>
-                  <img
-                    src={`http://localhost:3002/files/${editItem.thumbnail}`}
-                    width="70px"
-                    height="70px"
-                  />
-                </div>
-
-                <label className={productsStyles.label}>نام کالا</label>
-                <input
-                  type="text"
-                  name="name"
-                  className={productsStyles.label}
-                  onChange={handleChangeedit}
-                  // value={value}
-                  defaultValue={editItem.name}
-                />
-
-                <label className={productsStyles.label}> قیمت(تومان)</label>
-                <input
-                  type="text"
-                  name="price"
-                  className={productsStyles.label}
-                  onChange={handleChangeedit}
-                  defaultValue={editItem.price}
-                />
-                <label className={productsStyles.label}>تعداد کالا</label>
-                <input
-                  type="text"
-                  name="count"
-                  className={productsStyles.label}
-                  onChange={handleChangeedit}
-                  defaultValue={editItem.count}
-                />
-
-                <label className={productsStyles.label}>دسته بندی</label>
-                <select
-                  onChange={handleChangeedit}
-                  className={productsStyles.label}
-                  name="category"
-                  defaultValue={editItem.category}
-                >
-                  <option defaultValue>دسته بندی</option>
-                  <option value="1">لباس زنانه</option>
-                  <option value="2">لباس مردانه</option>
-                </select>
-
-                <label className={productsStyles.label}>زیر دسته بندی</label>
-                <select
-                  onChange={handleChangeedit}
-                  className={productsStyles.label}
-                  name="subCategory"
-                  defaultValue={editItem.subCategory}
-                >
-                  <option defaultValue>زیر دسته بندی</option>
-                  {subCategory?.map((s, i) => (
-                    <option value={s.id} key={i}>
-                      {s.name}
-                    </option>
-                  ))}
-                </select>
-                <label className={productsStyles.label}> تصاویر گالری</label>
-                <input
-                  type="file"
-                  accept="image"
-                  name="images"
-                  multiple
-                  className={productsStyles.label}
-                  onChange={handleChangeedit}
-                />
-
-                <label>توضیحات</label>
-
-                <CKEditor
-                  editor={ClassicEditor}
-                  data={editItem.description}
-                  onChange={(event, editor) => {
-                    setEditors(editor.getData());
-                  }}
-                />
-                <div className={productsStyles.btn}>
-                  <Button
-                    variant="contained"
-                    className={productsStyles.add}
-                    type="submit"
-                    onClose={handleClose}
-                  >
-                    ذخیره
-                  </Button>
-                </div>
-              </form>
-            </DialogContent>
-          </BootstrapDialog>
+          <Modal
+            title="ویرایش کالا"
+            change={handleChangeedit}
+            show={editModal}
+            close={handleClose}
+            submit={handleEditproduct}
+            editor={handleEditor}
+            data={editItem}
+          />
         </div>
       ) : (
         ""

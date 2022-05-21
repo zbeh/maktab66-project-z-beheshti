@@ -5,9 +5,11 @@ import homeStyles from './homeStyles.module.scss'
 import { Card } from '../../../Components'
 export default function Home() {
   const [data,setData] = useState()
+  const [men,setMen] = useState()
   const [cat,setCat] = useState()
   useEffect(()=>{
-    axios.get('http://localhost:3002/products').then(res=>setData(res.data)).catch(err=>console.log(err))
+    axios.get('http://localhost:3002/products?_start=0&_end=8&category=1').then(res=>setData(res.data)).catch(err=>console.log(err))
+    axios.get('http://localhost:3002/products?_start=0&_end=8&category=2').then(res=>setMen(res.data)).catch(err=>console.log(err))
     axios.get('http://localhost:3002/category').then(res=>setCat(res.data)).catch(error=> console.log(error))
   },[])
   const handleClick = (e) =>{
@@ -18,7 +20,7 @@ export default function Home() {
     <div className={`${homeStyles.homeContainer} container`}>
       <Link to="/all-products" state={{from:`${1}`}} onClick={handleClick} className={homeStyles.link}>{cat?.find(c=>c.id==1).name}</Link>
       <div className={`${homeStyles.cardConatiner} `}>
-        {(data?.filter(d=>d.category == 1))?.slice(0, 8).map(d=>(
+        {data?.map(d=>(
         <>
         <Card item ={d}/>
         </>
@@ -27,19 +29,9 @@ export default function Home() {
       </div>
       <Link to="/all-products" state={{from:`${2}`}} className={homeStyles.link}>{cat?.find(c=>c.id==2).name}</Link>
       <div className={`${homeStyles.cardConatiner} `}>
-        {(data?.filter(d=>d.category == 2))?.slice(0, 8).map(d=>(
+        {men?.map(d=>(
         <>
-        <div className={homeStyles.card}>
-        <div className={homeStyles.imgContainer}>
-         <img src={`http://localhost:3002/files/${d.images[0]}` }/>
-        </div>
-         <div className={homeStyles.contentContainer} >
-          <p>{d.name}</p>
-         </div>
-         <div className={homeStyles.contentContainer}>
-           <p>{d.price} تومان</p>
-         </div>
-        </div>
+         <Card item={d} />
         </>
          ) )}
 
