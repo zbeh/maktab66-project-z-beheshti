@@ -2,6 +2,7 @@ import React from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
+import DialogActions from '@mui/material/DialogActions';
 import { styled } from "@mui/material/styles";
 import PropTypes from "prop-types";
 import IconButton from "@mui/material/IconButton";
@@ -49,7 +50,7 @@ BootstrapDialogTitle.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 export default function Modal(props) {
- const  {show,change,close,submit,title,editor,data} = props
+ const  {show,change,close,submit,title,editor,data,submitForm} = props
  const subCategory = useSelector((state) => state.subCategory);
   return (
     <div>
@@ -65,7 +66,7 @@ export default function Modal(props) {
          {title}
         </BootstrapDialogTitle>
         <DialogContent dividers>
-          <form onSubmit={submit}>
+          <form onSubmit={data ?submitForm :submit}>
             <label className={modalStyles.label}>تصویر کالا:</label>
             <input
               type="file"
@@ -153,13 +154,19 @@ export default function Modal(props) {
                 variant="contained"
                 className={modalStyles.add}
                 type="submit"
-                onClose={close}
+                // onClick={close}
               >
                 ذخیره
               </Button>
             </div>
           </form>
+          
         </DialogContent>
+        <DialogActions>
+          <Button autoFocus onClick={close}>
+            بستن
+          </Button>
+        </DialogActions>
       </BootstrapDialog>
     </div>
   );

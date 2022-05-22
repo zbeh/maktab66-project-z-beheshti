@@ -12,6 +12,7 @@ import { Modal } from "../../../Components";
 
 export default function Products() {
   const token = localStorage.getItem("token");
+  let newData =[]
   const columns = [
     { field: "id", hide: true },
     {
@@ -62,15 +63,19 @@ export default function Products() {
   console.log(subCategory);
   const navigate = useNavigate();
   const [row, setRow] = useState([]);
+  const [upRow,setUpRow]=useState([])
   const [open, setOpen] = useState(false);
   const [info, setInfo] = useState();
   const [editors, setEditors] = useState();
   const [editModal, setEditModal] = useState(false);
   const [editItem, setEditItem] = useState();
   const [value, setValue] = useState();
+  const [newList,setNewList]= useState([])
+  const [edit,setEdit] =useState(false)
+  const [add,setAdd] = useState(false)
   // const [gallery,setGallery] = useState([])
   const [thumbnail, setThumbnail] = useState([]);
-  const [newThumbnail, setNewThumbnail] = useState([]);
+  const [newThumbnail, setNewThumbnail] = useState([]); 
   useEffect(() => {
     data?.map((d) =>
       setRow((r) => [
@@ -84,6 +89,32 @@ export default function Products() {
       ])
     );
   }, []);
+
+  useEffect(()=>{
+    if(edit || add){
+      axios.get("http://localhost:3002/products").then(res=>setNewList(res.data))
+      setRow([])
+    }
+    
+  },[edit,add])
+  useEffect(()=>{
+      newList?.map((d) =>(
+      setRow((ro)=>[
+        ...ro,
+        {
+          id: d.id,
+          image: "http://localhost:3002/files/" + d.thumbnail,
+          name: d.name,
+          category: category.find((i) => i.id == d.category).name,
+        },
+      ])
+    ));
+    setEdit(false)
+    setAdd(false)
+  },[newList])
+  
+  
+  
   // +" /"+(subCategory.find(item=>item.id==d.category))
   console.log(data);
   const handleEdit = (event, param) => {
@@ -121,8 +152,7 @@ export default function Products() {
     Object.entries(value)?.map((item) => formData.append(item[0], item[1]));
     formData.append("thumbnail", thumbnail);
     console.log(formData);
-    axios
-      .patch(`http://localhost:3002/products/${editItem.id}`, value, {
+    axios.patch(`http://localhost:3002/products/${editItem.id}`, value, {
         headers: { "Content-Type": "application/json", token: token },
       })
       .then((res) => console.log(res))
@@ -133,9 +163,21 @@ export default function Products() {
         }
         console.log(err);
         console.log(token);
-      });
+      })
+      
+      setEdit(true)
+      // axios.get(`http://localhost:3002/products/${editItem.id}`).then(res=> 
+      // {setRow([...row,{
+      //   id:res.data.id,
+      //   image: "http://localhost:3002/files/" + res.data.thumbnail,
+      //   name:res.data.name,
+      //   category: category.find((i) => i.id == res.data.category).name
+      // }]
+      // )}
+      // )
+    
   };
-
+  console.log(newList);
   console.log(editItem);
   const handleDelete = (event, param) => {
     event.stopPropagation();
@@ -146,8 +188,9 @@ export default function Products() {
         console.log(res);
         console.log(res.data);
       });
+      setRow(row.filter(r=>r.id!==targetItem.id))
   };
-
+  
   const handleClick = () => {
     setOpen(true);
   };
@@ -218,6 +261,7 @@ export default function Products() {
     axios
       .post("http://localhost:3002/products", formData)
       .then((res) => console.log(res));
+      setAdd(true)
   };
   // const handleEditproduct = (e) => {
   //   e.preventDefault();
@@ -282,6 +326,7 @@ export default function Products() {
             show={open}
             close={handleClose}
             submit={handleSubmit}
+            submitForm={null}
             editor={handleEditor}
             data={null}
           />
@@ -297,7 +342,7 @@ export default function Products() {
             change={handleChangeedit}
             show={editModal}
             close={handleClose}
-            submit={handleEditproduct}
+            submitForm={handleEditproduct}
             editor={handleEditor}
             data={editItem}
           />
