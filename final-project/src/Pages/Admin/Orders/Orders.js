@@ -22,51 +22,24 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useNavigate } from "react-router-dom";
-import { DateObject } from "react-multi-date-picker"
-const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-  "& .MuiDialogContent-root": {
-    padding: theme.spacing(2),
-  },
-  "& .MuiDialogActions-root": {
-    padding: theme.spacing(1),
-  },
-}));
-
-const BootstrapDialogTitle = (props) => {
-  const { children, onClose, ...other } = props;
-
-  return (
-    <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
-      {children}
-      {onClose ? (
-        <IconButton
-          aria-label="close"
-          onClick={onClose}
-          sx={{
-            position: "absolute",
-            left: 8,
-            top: 8,
-            color: (theme) => theme.palette.grey[500],
-          }}
-        >
-          <CloseIcon />
-        </IconButton>
-      ) : null}
-    </DialogTitle>
-  );
-};
-
+import { DateObject } from "react-multi-date-picker";
+import { OrderModal } from "../../../Components";
 export default function Orders() {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
   const [row, setRow] = useState([]);
   const [newRow, setNewRow] = useState([]);
   const [open, setOpen] = useState(false);
+  const [newModal,setNewModal] = useState(false)
   const [order, setOrder] = useState();
   const [selectedValue, setSelectedValue] = useState("b");
-  const [value, setValue] = useState(new DateObject({ calendar: persian }).set("date", ));
+  const [edit,setEdit] = useState(false)
+  const [newOrder,setNewOrder] = useState([])
+  const [value, setValue] = useState(
+    new DateObject({ calendar: persian }).set("date")
+  );
   const data = useSelector((state) => state.orders);
-  console.log(data);
+  // console.log(data);
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
   };
@@ -81,6 +54,7 @@ export default function Orders() {
             name: d.customerDetail.firstName + " " + d.customerDetail.lastName,
             purchaseTotal: d.purchaseTotal,
             orderDate: new Date(d.orderDate).toLocaleDateString("fa-IR"),
+            orderStatus:d.orderStatus,
           },
         ])
     );
@@ -94,37 +68,86 @@ export default function Orders() {
             name: d.customerDetail.firstName + " " + d.customerDetail.lastName,
             purchaseTotal: d.purchaseTotal,
             orderDate: new Date(d.orderDate).toLocaleDateString("fa-IR"),
+            orderStatus:d.orderStatus,
           },
         ])
     );
   }, []);
-
-  console.log(data);
+  useEffect(()=>{
+    if(edit){
+      axios.get('http://localhost:3002/orders',{headers:{token:token}})
+      .then((res) => setNewOrder(res.data))
+      setRow([])
+      setNewRow([])
+    }
+    
+  },[edit])
+  console.log(newOrder);
+  useEffect(() => {
+    newOrder?.map(
+      (d) =>
+        d.orderStatus == 2 &&
+        setRow((r) => [
+          ...r,
+          {
+            id: d.id,
+            name: d.customerDetail.firstName + " " + d.customerDetail.lastName,
+            purchaseTotal: d.purchaseTotal,
+            orderDate: new Date(d.orderDate).toLocaleDateString("fa-IR"),
+          },
+        ])
+    );
+    newOrder?.map(
+      (d) =>
+        d.orderStatus == 1 &&
+        setNewRow((r) => [
+          ...r,
+          {
+            id: d.id,
+            name: d.customerDetail.firstName + " " + d.customerDetail.lastName,
+            purchaseTotal: d.purchaseTotal,
+            orderDate: new Date(d.orderDate).toLocaleDateString("fa-IR"),
+            orderStatus:d.orderStatus
+          },
+        ])
+    );
+    setEdit(false)
+  }, [newOrder]);
+  // console.log(data);
   console.log(row);
-  console.log(value.unix);
+  console.log(newRow);
+  // console.log(value.unix);
   const handleClick = (event, param) => {
     event.stopPropagation();
     const selectedItem = param.row;
     console.log(selectedItem);
-    const targetItem = data.find((o) => o.id == selectedItem.id);
-    setOrder(targetItem);
+    if(newOrder.length>0){
+      const findEditOrder = newOrder.find(n=>n.id == selectedItem.id)
+      setOrder(findEditOrder)
+    }
+    else{
+      const targetItem = data.find((o) => o.id == selectedItem.id);
+      setOrder(targetItem);
+    }
+   
     if (selectedValue === "b") {
       setOpen(true);
+    }else{
+      setNewModal(true)
     }
-    if (selectedValue === "a") {
-      setOpen(true);
-    }
+    
   };
   const handleClose = () => {
     setOpen(false);
+    setNewModal(false)
   };
- 
+  console.log("value",value.toUnix())
   const handelSubmit = (e) => {
     e.preventDefault();
     axios
       .patch(
         `http://localhost:3002/orders/${order.id}`,
-        { orderStatus: 1, deliveredAt: value.unix },
+        { orderStatus: 1, deliveredAt: value.toUTC()},
         { headers: { "Content-Type": "application/json", token: token } }
       )
       .then((res) => console.log(res))
@@ -135,7 +158,9 @@ export default function Orders() {
         }
         console.log(err);
         console.log(token);
+        
       });
+      setEdit(true)
   };
   const columns = [
     { field: "name", headerName: "نام کاربر", width: 130, sortable: false },
@@ -212,103 +237,15 @@ export default function Orders() {
               className={orderStyles.table}
             />
             {open ? (
-              <div>
-                <BootstrapDialog
-                  onClose={handleClose}
-                  aria-labelledby="customized-dialog-title"
-                  open={open}
-                >
-                  <BootstrapDialogTitle
-                    id="customized-dialog-title"
-                    onClose={handleClose}
-                  >
-                    نمایش سفارش
-                  </BootstrapDialogTitle>
-                  <DialogContent dividers>
-                    <div>
-                      <span>نام مشتری:</span>
-                      <span>{`${order.customerDetail.firstName} ${order.customerDetail.lastName}`}</span>
-                    </div>
-
-                    <div>
-                      <span>آدرس:</span>
-                      <span>{order.customerDetail.billingAddress}</span>
-                    </div>
-                    <div>
-                      <span>تلفن:</span>
-                      <span>{order.customerDetail.phone}</span>
-                    </div>
-                    <div>
-                      <span>زمان سفارش:</span>
-                      <span>
-                        {new Date(order.orderDate).toLocaleDateString("fa-IR")}
-                      </span>
-                    </div>
-
-                    <div>
-                      <span>زمان تحویل:</span>
-                      <DatePicker
-                        calendar={persian}
-                        locale={persian_fa}
-                        calendarPosition="bottom-right"
-                        value={value}
-                        minDate={new DateObject({ calendar: persian })}
-                        onChange={setValue}
-                      />
-                    </div>
-                    <TableContainer
-                      component={Paper}
-                      sx={{ marginTop: "2rem" }}
-                    >
-                      <Table sx={{ width: "500px" }} aria-label="simple table">
-                        <TableHead>
-                          <TableRow>
-                            <TableCell align="right"> کالا</TableCell>
-                            <TableCell align="right">قیمت </TableCell>
-                            <TableCell align="right">تعداد</TableCell>
-                          </TableRow>
-                        </TableHead>
-                        <TableBody>
-                          {order.orderItems.map((row) => (
-                            <TableRow
-                              key={row.name}
-                              sx={{
-                                "&:last-child td, &:last-child th": {
-                                  border: 0,
-                                },
-                              }}
-                            >
-                              <TableCell
-                                align="right"
-                                component="th"
-                                scope="row"
-                              >
-                                {row.name}
-                              </TableCell>
-                              <TableCell align="right">{row.price}</TableCell>
-                              <TableCell align="right">
-                                {row.quantity}
-                              </TableCell>
-                            </TableRow>
-                          ))}
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
-                    <div className={orderStyles.btn}>
-                      <Button
-                        variant="contained"
-                        className={orderStyles.add}
-                        type="submit"
-                        onClose={handleClose}
-                        onClick={handelSubmit}
-                      >
-                        {" "}
-                        تحویل شد
-                      </Button>
-                    </div>
-                  </DialogContent>
-                </BootstrapDialog>
-              </div>
+              <OrderModal
+                show={open}
+                close={handleClose}
+                date={true}
+                value={value}
+                setValue={setValue}
+                order={order}
+                submit={handelSubmit}
+              />
             ) : (
               ""
             )}
@@ -327,95 +264,16 @@ export default function Orders() {
               rowHeight={100}
               className={orderStyles.table}
             />
-            {open ? (
-              <div>
-                <BootstrapDialog
-                  onClose={handleClose}
-                  aria-labelledby="customized-dialog-title"
-                  open={open}
-                >
-                  <BootstrapDialogTitle
-                    id="customized-dialog-title"
-                    onClose={handleClose}
-                  >
-                    نمایش سفارش
-                  </BootstrapDialogTitle>
-                  <DialogContent dividers>
-                    <div>
-                      <span>نام مشتری:</span>
-                      <span>{`${order.customerDetail.firstName} ${order.customerDetail.lastName}`}</span>
-                    </div>
+            {newModal ? (
+              <OrderModal
+                show={newModal}
+                close={handleClose}
+                date={false}
+                value={value}
+                setValue={setValue}
+                order={order}
 
-                    <div>
-                      <span>آدرس:</span>
-                      <span>{order.customerDetail.billingAddress}</span>
-                    </div>
-                    <div>
-                      <span>تلفن:</span>
-                      <span>{order.customerDetail.phone}</span>
-                    </div>
-                    <div>
-                      <span>زمان سفارش:</span>
-                      <span>
-                        {new Date(order.orderDate).toLocaleDateString("fa-IR")}
-                      </span>
-                    </div>
-
-                    <div>
-                      <span>زمان تحویل:</span>
-                      <sapn>
-                        {new Date(order.delivery).toLocaleDateString("fa-IR")}
-                      </sapn>
-                    </div>
-                    <TableContainer
-                      component={Paper}
-                      sx={{ marginTop: "2rem" }}
-                    >
-                      <Table sx={{ width: "500px" }} aria-label="simple table">
-                        <TableHead>
-                          <TableRow>
-                            <TableCell align="right"> کالا</TableCell>
-                            <TableCell align="right">قیمت </TableCell>
-                            <TableCell align="right">تعداد</TableCell>
-                          </TableRow>
-                        </TableHead>
-                        <TableBody>
-                          {order.orderItems.map((row) => (
-                            <TableRow
-                              key={row.name}
-                              sx={{
-                                "&:last-child td, &:last-child th": {
-                                  border: 0,
-                                },
-                              }}
-                            >
-                              <TableCell
-                                align="right"
-                                component="th"
-                                scope="row"
-                              >
-                                {row.name}
-                              </TableCell>
-                              <TableCell align="right">{row.price}</TableCell>
-                              <TableCell align="right">
-                                {row.quantity}
-                              </TableCell>
-                            </TableRow>
-                          ))}
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
-                    <div className={orderStyles.btn}>
-                      <span>زمان تحویل:</span>
-                      <sapn>
-                        {new Date(order.deliveredAt).toLocaleDateString(
-                          "fa-IR"
-                        )}
-                      </sapn>
-                    </div>
-                  </DialogContent>
-                </BootstrapDialog>
-              </div>
+              />
             ) : (
               ""
             )}
