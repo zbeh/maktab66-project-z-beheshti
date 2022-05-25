@@ -22,4 +22,23 @@
         width: 300px;
         height: 300px;
     }
+    margin-bottom: 12rem;
 }
+.swiper {
+    width: 300px;
+    height: 300px;
+    padding: 50px;
+  }
+  
+  .swiperSlide {
+    background-position: center;
+    background-size: cover;
+    width: 300px;
+    height: 300px;
+  }
+  
+  .swiperSlide img {
+    display: block;
+    width: 100%;
+  }
+  

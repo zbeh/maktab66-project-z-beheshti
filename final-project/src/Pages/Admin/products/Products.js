@@ -59,11 +59,13 @@ export default function Products() {
   const data = useSelector((state) => state.data);
   const category = useSelector((state) => state.category);
   const subCategory = useSelector((state) => state.subCategory);
-  console.log(category);
-  console.log(subCategory);
+  // console.log(category);
+  // console.log(subCategory);
+  // console.log(data);
   const navigate = useNavigate();
   const [row, setRow] = useState([]);
-  const [upRow,setUpRow]=useState([])
+  const [cat,setCat]=useState([])
+  const [product,setProduct] = useState([])
   const [open, setOpen] = useState(false);
   const [info, setInfo] = useState();
   const [editors, setEditors] = useState();
@@ -73,23 +75,57 @@ export default function Products() {
   const [newList,setNewList]= useState([])
   const [edit,setEdit] =useState(false)
   const [add,setAdd] = useState(false)
-  // const [gallery,setGallery] = useState([])
+  let products =[]
+  // let cats = []
+  const [gallery,setGallery] = useState([])
   const [thumbnail, setThumbnail] = useState([]);
   const [newThumbnail, setNewThumbnail] = useState([]); 
+  useEffect(()=>{
+    category && category[0] && category.map(c=>setCat(cat=>[...cat,c]))
+    console.log("product",product);
+  },[category])
+  console.log(cat);
   useEffect(() => {
-    data?.map((d) =>
-      setRow((r) => [
-        ...r,
-        {
+    
+    data && data[0] && cat && cat[0] &&
+    data.map(d=>(
+      setRow(row=>[
+        ...row,
+        
+          {
           id: d.id,
           image: "http://localhost:3002/files/" + d.thumbnail,
           name: d.name,
-          category: category.find((i) => i.id == d.category).name,
-        },
+          category:cat?.find(obj=>(obj.id==d.category)).name,
+          
+        }
+       
+        
       ])
-    );
-  }, []);
+    ))
+      
+    
+  }, [data,cat]);
 
+  // useEffect(()=>{
+  //   axios.get('http://localhost:3002/products').then((res)=>{
+  //     let newProduct = []
+  //     for (let i=0 ; i<res.data.length ; i++){
+  //       let productObject ={}
+  //       axios.get(`http://localhost:3002/category/${res.data[i].category}`).then((res)=>{
+  //         productObject.category = res.data.name
+  //       })
+  //       productObject.id = res.data[i].id
+  //       productObject.name = res.data[i].name
+  //       productObject.image= "http://localhost:3002/files/" + res.data[i].thumbnail
+  //       newProduct.push(productObject)
+  //     }
+  //     setRow(newProduct)
+  //   })
+    
+  // },[])
+  
+ 
   useEffect(()=>{
     if(edit || add){
       axios.get("http://localhost:3002/products").then(res=>setNewList(res.data))
@@ -98,6 +134,7 @@ export default function Products() {
     
   },[edit,add])
   useEffect(()=>{
+    console.log(cat);
       newList?.map((d) =>(
       setRow((ro)=>[
         ...ro,
@@ -105,7 +142,7 @@ export default function Products() {
           id: d.id,
           image: "http://localhost:3002/files/" + d.thumbnail,
           name: d.name,
-          category: category.find((i) => i.id == d.category).name,
+          category: cat.find((i) => i.id == d.category).name,
         },
       ])
     ));
@@ -113,10 +150,6 @@ export default function Products() {
     setAdd(false)
   },[newList])
   
-  
-  
-  // +" /"+(subCategory.find(item=>item.id==d.category))
-  console.log(data);
   const handleEdit = (event, param) => {
     event.stopPropagation();
     const selectedItem = param.row;
@@ -166,15 +199,6 @@ export default function Products() {
       })
       
       setEdit(true)
-      // axios.get(`http://localhost:3002/products/${editItem.id}`).then(res=> 
-      // {setRow([...row,{
-      //   id:res.data.id,
-      //   image: "http://localhost:3002/files/" + res.data.thumbnail,
-      //   name:res.data.name,
-      //   category: category.find((i) => i.id == res.data.category).name
-      // }]
-      // )}
-      // )
     
   };
   console.log(newList);
@@ -214,32 +238,20 @@ export default function Products() {
         } = res;
         setThumbnail(filename);
       });
-      // } else if(e.target.name == "images" ) {
-      //   const data=(e.target.files)
-      //   console.log(data);
-      //   const len = data.length
-      //   console.log("data",data[0]);
-      //   console.log("data1",data[1]);
-      //   var dstring = Object.values(data).map(d=> {
-      //     return(d.name);
-      // }).join(',')
-      //   const formData = new FormData()
-      //   // for (let x = 0; x < len; x++) {
-      //   //   galleryData.append("images",e.target.files[x])
-      //   // }
-      //   console.log(dstring);
-      //   formData.append("images",JSON.stringify(dstring))
-      //   const fd = formData.get('images')
-      //   console.log(fd)
-      //   axios.post("http://localhost:3002/upload",formData,{ headers: { "Content-Type": "multipart/form-data" }}).then(res=>{
-      //       console.log(res);
-      //   })
-
-      // getAll('images')
-
-      // const {data:{filename}}=res
-      // setGallery([...gallery,filename])
-    } else {
+    } else if(e.target.name == "images"){
+       const files = Array.from(e.target.files)
+       let tempArray =[]
+       files.map((item)=>{
+         const fd = new FormData()
+         fd.append("image", item)
+          axios.post("http://localhost:3002/upload",fd).then((res)=>{
+            console.log(res)
+            const {data:{filename}}=res
+            setGallery(gallery=>[...gallery,filename])
+          })
+       })
+    }
+    else {
       setInfo({
         ...info,
         [e.target.name]: e.target.value,
@@ -249,14 +261,14 @@ export default function Products() {
   };
   console.log(info);
   console.log("t", thumbnail);
-  // console.log("g",gallery);
+  console.log("g",gallery);
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("form");
     const formData = new FormData();
     Object.entries(info)?.map((item) => formData.append(item[0], item[1]));
     formData.append("thumbnail", thumbnail);
-    // formData.append('images',[...gallery])
+    formData.append('images',[...gallery])
     console.log(formData);
     axios
       .post("http://localhost:3002/products", formData)

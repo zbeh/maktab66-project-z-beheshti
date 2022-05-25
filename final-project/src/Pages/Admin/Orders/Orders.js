@@ -44,7 +44,7 @@ export default function Orders() {
     setSelectedValue(event.target.value);
   };
   useEffect(() => {
-    data?.map(
+    data && data[0] && data.map(
       (d) =>
         d.orderStatus == 2 &&
         setRow((r) => [
@@ -58,7 +58,7 @@ export default function Orders() {
           },
         ])
     );
-    data?.map(
+    data && data[0] && data.map(
       (d) =>
         d.orderStatus == 1 &&
         setNewRow((r) => [

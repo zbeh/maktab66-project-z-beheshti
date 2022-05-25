@@ -15,6 +15,7 @@ import {
   Quantity,
   Orders,
   ProtectedRoute,
+  PrivateRoute,
 } from "../Pages";
 export default function AppRoutes() {
   return (
@@ -36,7 +37,6 @@ export default function AppRoutes() {
             </UserLayout>
           }
         />
-        <Route path="/login" element={<Login />} />
         <Route
           path="/checkout"
           element={
@@ -67,6 +67,14 @@ export default function AppRoutes() {
             <UserLayout sidebar={true}>
               <AllProducts />
             </UserLayout>
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <PrivateRoute>
+              <Login />
+            </PrivateRoute>
           }
         />
         <Route

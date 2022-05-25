@@ -132,15 +132,15 @@ export default function Modal(props) {
                 </option>
               ))}
             </select>
-            {/* <label className={modalStyles.label}> تصاویر گالری</label>
+            <label className={modalStyles.label}> تصاویر گالری</label>
                 <input
                   type="file"
                   accept="image"
                   name="images"
                   multiple
                   className={modalStyles.label}
-                  onChange={ handleChange }
-                /> */}
+                  onChange={ change }
+                />
 
             <label>توضیحات</label>
 
