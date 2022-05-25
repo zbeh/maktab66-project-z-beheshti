@@ -44,6 +44,7 @@ export default function ProductDetail() {
                       name="count"
                       min="1"
                       max={`${data.data[0].count}`}
+                      placeholder='1'
                     />
                     <Button className={productDetailStyles.btn}>
                       افزودن به سبد خرید
