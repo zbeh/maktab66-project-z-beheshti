@@ -45,4 +45,12 @@ a{
   }
   
 }
-
+.swiper-button-nex {
+  &::after{
+    color:black !important
+  }
+   
+}
+.swiper-pagination-bullets{
+  color:black !important
+}
