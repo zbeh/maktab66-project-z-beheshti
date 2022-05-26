@@ -12,7 +12,7 @@ import { Modal } from "../../../Components";
 
 export default function Products() {
   const token = localStorage.getItem("token");
-  let newData =[]
+  let newData = [];
   const columns = [
     { field: "id", hide: true },
     {
@@ -64,48 +64,63 @@ export default function Products() {
   // console.log(data);
   const navigate = useNavigate();
   const [row, setRow] = useState([]);
-  const [cat,setCat]=useState([])
-  const [product,setProduct] = useState([])
+  const [cat, setCat] = useState([]);
+  const [product, setProduct] = useState([]);
   const [open, setOpen] = useState(false);
   const [info, setInfo] = useState();
   const [editors, setEditors] = useState();
   const [editModal, setEditModal] = useState(false);
   const [editItem, setEditItem] = useState();
   const [value, setValue] = useState();
-  const [newList,setNewList]= useState([])
-  const [edit,setEdit] =useState(false)
-  const [add,setAdd] = useState(false)
-  let products =[]
+  const [newList, setNewList] = useState([]);
+  const [edit, setEdit] = useState(false);
+  const [add, setAdd] = useState(false);
+  let products = [];
   // let cats = []
-  const [gallery,setGallery] = useState([])
+  const [gallery, setGallery] = useState([]);
   const [thumbnail, setThumbnail] = useState([]);
-  const [newThumbnail, setNewThumbnail] = useState([]); 
-  useEffect(()=>{
-    category && category[0] && category.map(c=>setCat(cat=>[...cat,c]))
-    console.log("product",product);
-  },[category])
-  console.log(cat);
+  const [newThumbnail, setNewThumbnail] = useState([]);
   useEffect(() => {
-    
-    data && data[0] && cat && cat[0] &&
-    data.map(d=>(
-      setRow(row=>[
-        ...row,
-        
-          {
+    category &&
+      category[0] &&
+      category.map((c) => setCat((cat) => [...cat, c]));
+    console.log("product", product);
+  }, [category]);
+  console.log(cat);
+  // useEffect(() => {
+
+  //   data && data[0] && cat && cat[0] &&
+  //   data.map(d=>(
+  //     setRow(row=>[
+  //       ...row,
+
+  //         {
+  //         id: d.id,
+  //         image: "http://localhost:3002/files/" + d.thumbnail,
+  //         name: d.name,
+  //         category:cat?.find(obj=>(obj.id==d.category)).name,
+
+  //       }
+
+  //     ])
+  //   ))
+
+  // }, [data,cat]);
+  useEffect(() => {
+    data &&
+      data[0] &&
+      cat &&
+      cat[0] &&
+      setRow(
+        data.map((d) => ({
           id: d.id,
           image: "http://localhost:3002/files/" + d.thumbnail,
           name: d.name,
-          category:cat?.find(obj=>(obj.id==d.category)).name,
-          
-        }
-       
-        
-      ])
-    ))
-      
-    
-  }, [data,cat]);
+          category: cat?.find((obj) => obj.id == d.category).name,
+        }))
+      );
+  }, [data, cat]);
+  console.log(row);
 
   // useEffect(()=>{
   //   axios.get('http://localhost:3002/products').then((res)=>{
@@ -122,34 +137,49 @@ export default function Products() {
   //     }
   //     setRow(newProduct)
   //   })
-    
+
   // },[])
-  
- 
-  useEffect(()=>{
-    if(edit || add){
-      axios.get("http://localhost:3002/products").then(res=>setNewList(res.data))
-      setRow([])
+
+  useEffect(() => {
+    if (edit || add) {
+      axios
+        .get("http://localhost:3002/products")
+        .then((res) => setNewList(res.data));
+      setRow([]);
     }
-    
-  },[edit,add])
-  useEffect(()=>{
+  }, [edit, add]);
+  useEffect(() => {
     console.log(cat);
-      newList?.map((d) =>(
-      setRow((ro)=>[
-        ...ro,
-        {
-          id: d.id,
-          image: "http://localhost:3002/files/" + d.thumbnail,
-          name: d.name,
-          category: cat.find((i) => i.id == d.category).name,
-        },
-      ])
-    ));
-    setEdit(false)
-    setAdd(false)
-  },[newList])
-  
+
+    setRow(
+      newList?.map((d) => ({
+        id: d.id,
+        image: "http://localhost:3002/files/" + d.thumbnail,
+        name: d.name,
+        category: cat.find((i) => i.id == d.category).name,
+      }))
+    );
+
+    setEdit(false);
+    setAdd(false);
+  }, [newList]);
+  // useEffect(()=>{
+  //   console.log(cat);
+  //     newList?.map((d) =>(
+  //     setRow((ro)=>[
+  //       ...ro,
+  //       {
+  //         id: d.id,
+  //         image: "http://localhost:3002/files/" + d.thumbnail,
+  //         name: d.name,
+  //         category: cat.find((i) => i.id == d.category).name,
+  //       },
+  //     ])
+  //   ));
+  //   setEdit(false)
+  //   setAdd(false)
+  // },[newList])
+
   const handleEdit = (event, param) => {
     event.stopPropagation();
     const selectedItem = param.row;
@@ -185,7 +215,8 @@ export default function Products() {
     Object.entries(value)?.map((item) => formData.append(item[0], item[1]));
     formData.append("thumbnail", thumbnail);
     console.log(formData);
-    axios.patch(`http://localhost:3002/products/${editItem.id}`, value, {
+    axios
+      .patch(`http://localhost:3002/products/${editItem.id}`, value, {
         headers: { "Content-Type": "application/json", token: token },
       })
       .then((res) => console.log(res))
@@ -196,10 +227,9 @@ export default function Products() {
         }
         console.log(err);
         console.log(token);
-      })
-      
-      setEdit(true)
-    
+      });
+
+    setEdit(true);
   };
   console.log(newList);
   console.log(editItem);
@@ -212,9 +242,9 @@ export default function Products() {
         console.log(res);
         console.log(res.data);
       });
-      setRow(row.filter(r=>r.id!==targetItem.id))
+    setRow(row.filter((r) => r.id !== targetItem.id));
   };
-  
+
   const handleClick = () => {
     setOpen(true);
   };
@@ -238,20 +268,21 @@ export default function Products() {
         } = res;
         setThumbnail(filename);
       });
-    } else if(e.target.name == "images"){
-       const files = Array.from(e.target.files)
-       let tempArray =[]
-       files.map((item)=>{
-         const fd = new FormData()
-         fd.append("image", item)
-          axios.post("http://localhost:3002/upload",fd).then((res)=>{
-            console.log(res)
-            const {data:{filename}}=res
-            setGallery(gallery=>[...gallery,filename])
-          })
-       })
-    }
-    else {
+    } else if (e.target.name == "images") {
+      const files = Array.from(e.target.files);
+      let tempArray = [];
+      files.map((item) => {
+        const fd = new FormData();
+        fd.append("image", item);
+        axios.post("http://localhost:3002/upload", fd).then((res) => {
+          console.log(res);
+          const {
+            data: { filename },
+          } = res;
+          setGallery((gallery) => [...gallery, filename]);
+        });
+      });
+    } else {
       setInfo({
         ...info,
         [e.target.name]: e.target.value,
@@ -261,19 +292,19 @@ export default function Products() {
   };
   console.log(info);
   console.log("t", thumbnail);
-  console.log("g",gallery);
+  console.log("g", gallery);
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("form");
     const formData = new FormData();
     Object.entries(info)?.map((item) => formData.append(item[0], item[1]));
     formData.append("thumbnail", thumbnail);
-    formData.append('images',[...gallery])
+    formData.append("images", [...gallery]);
     console.log(formData);
     axios
       .post("http://localhost:3002/products", formData)
       .then((res) => console.log(res));
-      setAdd(true)
+    setAdd(true);
   };
   // const handleEditproduct = (e) => {
   //   e.preventDefault();
