@@ -72,7 +72,7 @@ export default function Orders() {
           },
         ])
     );
-  }, []);
+  }, [data]);
   useEffect(()=>{
     if(edit){
       axios.get('http://localhost:3002/orders',{headers:{token:token}})
