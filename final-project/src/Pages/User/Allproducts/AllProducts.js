@@ -2,16 +2,14 @@ import { useMemo, useState } from "react";
 import { Box, CircularProgress, Pagination, Typography } from "@mui/material";
 import { useFetch } from "../../../Helper/USeFetch";
 import allproductsStyles from './allproductsStyles.module.scss'
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { Card } from "../../../Components";
 const AllProducts = () => {
-  const location = useLocation()
-  const {from} = location.state
-  console.log(from);
+  const {categoryId} = useParams()
   const limit = 12;
   const [currentPage, setCurrentPage] = useState(1);
   const { data, loading, error } = useFetch(
-    `http://localhost:3002/products?_page=${currentPage}&_limit=${limit}&category=${from}`
+    `http://localhost:3002/products?_page=${currentPage}&_limit=${limit}&category=${categoryId}`
   );
   console.log(data);
 

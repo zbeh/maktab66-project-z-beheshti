@@ -22,7 +22,7 @@ export default function SideBar() {
         {cat
           ?.filter((e, i) => i === 0)
           .map((option, i) => (
-            <Link to="/all-products" state={{ from: `${1}` }} key={option.id}>
+            <Link to={`/all-products/${option.id}`} key={option.id}>
               {option.name}
             </Link>
           ))}
@@ -36,7 +36,7 @@ export default function SideBar() {
         {cat
           ?.filter((e, i) => i === 1)
           .map((option, i) => (
-            <Link to="/all-products" state={{ from: `${2}` }} key={option.id}>
+            <Link to={`/all-products/${option.id}`} key={option.id}>
               {option.name}
             </Link>
           ))}

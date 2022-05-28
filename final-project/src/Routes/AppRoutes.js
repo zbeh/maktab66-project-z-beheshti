@@ -63,7 +63,7 @@ export default function AppRoutes() {
           }
         />
         <Route
-          path="/all-products"
+          path="/all-products/:categoryId"
           element={
             <UserLayout sidebar={true}>
               <AllProducts />

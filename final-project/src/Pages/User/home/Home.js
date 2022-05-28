@@ -26,9 +26,6 @@ export default function Home() {
       .then((res) => setCat(res.data))
       .catch((error) => console.log(error));
   }, []);
-  const handleClick = (e) => {
-    console.log(e.target);
-  };
   return (
     <>
       <Swiper
@@ -57,35 +54,35 @@ export default function Home() {
         </SwiperSlide>
       </Swiper>
       <div className={`${homeStyles.homeContainer} container`}>
-        <Link
-          to="/all-products"
-          state={{ from: `${1}` }}
-          onClick={handleClick}
-          className={homeStyles.link}
-        >
-          {cat?.find((c) => c.id == 1).name}
-        </Link>
-        <div className={`${homeStyles.cardConatiner} `}>
-          {data?.map((d) => (
-            <>
-              <Card item={d} />
-            </>
-          ))}
-        </div>
-        <Link
-          to="/all-products"
-          state={{ from: `${2}` }}
-          className={homeStyles.link}
-        >
-          {cat?.find((c) => c.id == 2).name}
-        </Link>
-        <div className={`${homeStyles.cardConatiner} `}>
-          {men?.map((d) => (
-            <>
-              <Card item={d} />
-            </>
-          ))}
-        </div>
+        {cat?.map((c) => (
+          <>
+            <Link
+              to={`all-products/${c.id}`}
+              className={homeStyles.link}
+            >
+              {c.name}
+            </Link>
+            <div className={`${homeStyles.cardConatiner} `}>
+              {c.id == 1 ? (
+                <div className={`${homeStyles.cardConatiner} `}>
+                  {data?.map((d) => (
+                    <>
+                      <Card item={d} />
+                    </>
+                  ))}
+                </div>
+              ) : (
+                <div className={`${homeStyles.cardConatiner} `}>
+                  {men?.map((d) => (
+                    <>
+                      <Card item={d} />
+                    </>
+                  ))}
+                </div>
+              )}
+            </div>
+          </>
+        ))}
       </div>
     </>
   );
