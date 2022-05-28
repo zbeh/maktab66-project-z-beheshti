@@ -16,6 +16,7 @@ import {
   Orders,
   ProtectedRoute,
   PrivateRoute,
+  PageNotFound
 } from "../Pages";
 export default function AppRoutes() {
   return (
@@ -91,6 +92,9 @@ export default function AppRoutes() {
           <Route path="quantity" element={<Quantity />} />
           <Route path="orders" element={<Orders />} />
         </Route>
+
+        <Route path="*" element={<PageNotFound/>} />
+
       </Routes>
     </>
   );

@@ -11,6 +11,7 @@ import Quantity from "./Admin/Quantity/Quantity";
 import Orders from "./Admin/Orders/Orders";
 import ProtectedRoute from "./Admin/ProtectedRoute";
 import PrivateRoute from "./Admin/PrivateRoute";
+import PageNotFound from './User/PageNotFound'
 export {
   Home,
   Checkout,
@@ -25,4 +26,5 @@ export {
   ProductDetail,
   ProtectedRoute,
   PrivateRoute,
+  PageNotFound
 };
