@@ -230,6 +230,7 @@ export default function Products() {
       });
 
     setEdit(true);
+    setEditModal(false)
   };
   console.log(newList);
   console.log(editItem);
@@ -305,6 +306,7 @@ export default function Products() {
       .post("http://localhost:3002/products", formData)
       .then((res) => console.log(res));
     setAdd(true);
+    setOpen(false)
   };
   // const handleEditproduct = (e) => {
   //   e.preventDefault();

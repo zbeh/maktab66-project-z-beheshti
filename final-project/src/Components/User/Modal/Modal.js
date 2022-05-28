@@ -162,11 +162,11 @@ export default function Modal(props) {
           </form>
           
         </DialogContent>
-        <DialogActions>
+        {/* <DialogActions>
           <Button autoFocus onClick={close}>
             بستن
           </Button>
-        </DialogActions>
+        </DialogActions> */}
       </BootstrapDialog>
     </div>
   );
