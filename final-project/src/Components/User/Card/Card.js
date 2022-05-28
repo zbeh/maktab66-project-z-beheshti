@@ -7,7 +7,7 @@ export default function Card(props) {
     <div className={cardStyles.card}>
       <Link to={`/product-details/${item.id}`}>
         <div className={cardStyles.imgContainer}>
-          <img src={`http://localhost:3002/files/${item.images[0]}`} />
+          <img src={`http://localhost:3002/files/${item.images[0]}`} alt="مشکل در نمایش تصویر"/>
         </div>
         <div className={cardStyles.contentContainer}>
           <p>{item.name}</p>

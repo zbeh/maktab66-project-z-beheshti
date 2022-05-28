@@ -61,7 +61,7 @@ export default function ProductDetail() {
                     data.data[0].images[0] &&
                     data?.data[0].images.map((i) => (
                       <SwiperSlide className={productDetailStyles.SwiperSlide}>
-                        <img src={`http://localhost:3002/files/${i}`} />
+                        <img src={`http://localhost:3002/files/${i}`} alt="مشکل در نمایش تصویر" />
                       </SwiperSlide>
                     ))}
                 </Swiper>

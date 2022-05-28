@@ -8,10 +8,6 @@ import { Autoplay, Pagination, Navigation } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import first from '../../../Assets/Images/1.jpg';
-import second from '../../../Assets/Images/2.jpg';
-import third from '../../../Assets/Images/3.jpeg';
-import forth from '../../../Assets/Images/4.jpg';
 export default function Home() {
   const [data, setData] = useState();
   const [men, setMen] = useState();
@@ -50,11 +46,15 @@ export default function Home() {
         modules={[Autoplay, Pagination, Navigation]}
         className={homeStyles.swiper}
       >
-        <SwiperSlide className={homeStyles.swiperSlide}><div className={homeStyles.fImage}></div></SwiperSlide>
-        <SwiperSlide className={homeStyles.swiperSlide}><div className={homeStyles.sImage}></div></SwiperSlide>
-        <SwiperSlide className={homeStyles.swiperSlide}><div className={homeStyles.tImage}></div></SwiperSlide>
-        {/* <SwiperSlide className={homeStyles.swiperSlide}><img src={forth}/></SwiperSlide> */}
-        
+        <SwiperSlide className={homeStyles.swiperSlide}>
+          <div className={homeStyles.fImage}></div>
+        </SwiperSlide>
+        <SwiperSlide className={homeStyles.swiperSlide}>
+          <div className={homeStyles.sImage}></div>
+        </SwiperSlide>
+        <SwiperSlide className={homeStyles.swiperSlide}>
+          <div className={homeStyles.tImage}></div>
+        </SwiperSlide>
       </Swiper>
       <div className={`${homeStyles.homeContainer} container`}>
         <Link
