@@ -52,10 +52,10 @@ const BootstrapDialogTitle = (props) => {
   );
 };
 export default function OrderModal(props) {
-  const { show, close, order, date, submit,value,setValue } = props;
-//   const [value, setValue] = useState(
-//     new DateObject({ calendar: persian }).set("date")
-//   );
+  const { show, close, order, date, submit, value, setValue } = props;
+  //   const [value, setValue] = useState(
+  //     new DateObject({ calendar: persian }).set("date")
+  //   );
   return (
     <div>
       <BootstrapDialog
@@ -143,12 +143,11 @@ export default function OrderModal(props) {
                   variant="contained"
                   className={orderModalStyles.add}
                   type="submit"
-                //   onClose={close}
-                  onClick={close}
+                  onClick={submit}
                 >
-                  {" "}
                   تحویل شد
                 </Button>
+                
               </>
             ) : (
               <>

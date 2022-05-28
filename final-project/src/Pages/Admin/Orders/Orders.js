@@ -5,36 +5,22 @@ import Radio from "@mui/material/Radio";
 import { DataGrid } from "@mui/x-data-grid";
 import orderStyles from "./orderStyles.module.scss";
 import { useSelector } from "react-redux";
-import DatePicker from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
-import persian_fa from "react-date-object/locales/persian_fa";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import { styled } from "@mui/material/styles";
-import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
 import { useNavigate } from "react-router-dom";
 import { DateObject } from "react-multi-date-picker";
 import { OrderModal } from "../../../Components";
+import toast, { Toaster } from "react-hot-toast";
 export default function Orders() {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
   const [row, setRow] = useState([]);
   const [newRow, setNewRow] = useState([]);
   const [open, setOpen] = useState(false);
-  const [newModal,setNewModal] = useState(false)
+  const [newModal, setNewModal] = useState(false);
   const [order, setOrder] = useState();
   const [selectedValue, setSelectedValue] = useState("b");
-  const [edit,setEdit] = useState(false)
-  const [newOrder,setNewOrder] = useState([])
+  const [edit, setEdit] = useState(false);
+  const [newOrder, setNewOrder] = useState([]);
   const [value, setValue] = useState(
     new DateObject({ calendar: persian }).set("date")
   );
@@ -44,44 +30,50 @@ export default function Orders() {
     setSelectedValue(event.target.value);
   };
   useEffect(() => {
-    data && data[0] && data.map(
-      (d) =>
-        d.orderStatus == 2 &&
-        setRow((r) => [
-          ...r,
-          {
-            id: d.id,
-            name: d.customerDetail.firstName + " " + d.customerDetail.lastName,
-            purchaseTotal: d.purchaseTotal,
-            orderDate: new Date(d.orderDate).toLocaleDateString("fa-IR"),
-            orderStatus:d.orderStatus,
-          },
-        ])
-    );
-    data && data[0] && data.map(
-      (d) =>
-        d.orderStatus == 1 &&
-        setNewRow((r) => [
-          ...r,
-          {
-            id: d.id,
-            name: d.customerDetail.firstName + " " + d.customerDetail.lastName,
-            purchaseTotal: d.purchaseTotal,
-            orderDate: new Date(d.orderDate).toLocaleDateString("fa-IR"),
-            orderStatus:d.orderStatus,
-          },
-        ])
-    );
+    data &&
+      data[0] &&
+      data.map(
+        (d) =>
+          d.orderStatus == 2 &&
+          setRow((r) => [
+            ...r,
+            {
+              id: d.id,
+              name:
+                d.customerDetail.firstName + " " + d.customerDetail.lastName,
+              purchaseTotal: d.purchaseTotal,
+              orderDate: new Date(d.orderDate).toLocaleDateString("fa-IR"),
+              orderStatus: d.orderStatus,
+            },
+          ])
+      );
+    data &&
+      data[0] &&
+      data.map(
+        (d) =>
+          d.orderStatus == 1 &&
+          setNewRow((r) => [
+            ...r,
+            {
+              id: d.id,
+              name:
+                d.customerDetail.firstName + " " + d.customerDetail.lastName,
+              purchaseTotal: d.purchaseTotal,
+              orderDate: new Date(d.orderDate).toLocaleDateString("fa-IR"),
+              orderStatus: d.orderStatus,
+            },
+          ])
+      );
   }, [data]);
-  useEffect(()=>{
-    if(edit){
-      axios.get('http://localhost:3002/orders',{headers:{token:token}})
-      .then((res) => setNewOrder(res.data))
-      setRow([])
-      setNewRow([])
+  useEffect(() => {
+    if (edit) {
+      axios
+        .get("http://localhost:3002/orders", { headers: { token: token } })
+        .then((res) => setNewOrder(res.data));
+      setRow([]);
+      setNewRow([]);
     }
-    
-  },[edit])
+  }, [edit]);
   console.log(newOrder);
   useEffect(() => {
     newOrder?.map(
@@ -107,11 +99,11 @@ export default function Orders() {
             name: d.customerDetail.firstName + " " + d.customerDetail.lastName,
             purchaseTotal: d.purchaseTotal,
             orderDate: new Date(d.orderDate).toLocaleDateString("fa-IR"),
-            orderStatus:d.orderStatus
+            orderStatus: d.orderStatus,
           },
         ])
     );
-    setEdit(false)
+    setEdit(false);
   }, [newOrder]);
   // console.log(data);
   console.log(row);
@@ -121,33 +113,32 @@ export default function Orders() {
     event.stopPropagation();
     const selectedItem = param.row;
     console.log(selectedItem);
-    if(newOrder.length>0){
-      const findEditOrder = newOrder.find(n=>n.id == selectedItem.id)
-      setOrder(findEditOrder)
-    }
-    else{
+    if (newOrder.length > 0) {
+      const findEditOrder = newOrder.find((n) => n.id == selectedItem.id);
+      setOrder(findEditOrder);
+    } else {
       const targetItem = data.find((o) => o.id == selectedItem.id);
       setOrder(targetItem);
     }
-   
+
     if (selectedValue === "b") {
       setOpen(true);
-    }else{
-      setNewModal(true)
+    } else {
+      setNewModal(true);
     }
-    
   };
   const handleClose = () => {
     setOpen(false);
-    setNewModal(false)
+    setNewModal(false);
   };
-  console.log("value",value.toUnix())
+  console.log("value", value.toUnix());
+
   const handelSubmit = (e) => {
     e.preventDefault();
     axios
       .patch(
         `http://localhost:3002/orders/${order.id}`,
-        { orderStatus: 1, deliveredAt: value.toUTC()},
+        { orderStatus: 1, deliveredAt: value.toUTC() },
         { headers: { "Content-Type": "application/json", token: token } }
       )
       .then((res) => console.log(res))
@@ -156,11 +147,13 @@ export default function Orders() {
           localStorage.removeItem("token");
           navigate("/login");
         }
+        toast.error('عملیات با خطا مواجه شد.')
         console.log(err);
         console.log(token);
-        
       });
-      setEdit(true)
+    setEdit(true);
+    setOpen(false);
+    toast.success('اطلاعات با موفقیت ثبت شد.')
   };
   const columns = [
     { field: "name", headerName: "نام کاربر", width: 130, sortable: false },
@@ -196,6 +189,7 @@ export default function Orders() {
           (orderStyles.tcontainer, orderStyles.mt3)
         } container d-flex justify-between`}
       >
+        <Toaster position="top-center" reverseOrder={false} />
         <Typography
           variant="h6"
           component="div"
@@ -237,15 +231,18 @@ export default function Orders() {
               className={orderStyles.table}
             />
             {open ? (
-              <OrderModal
-                show={open}
-                close={handleClose}
-                date={true}
-                value={value}
-                setValue={setValue}
-                order={order}
-                submit={handelSubmit}
-              />
+              <>
+                <OrderModal
+                  show={open}
+                  close={handleClose}
+                  date={true}
+                  value={value}
+                  setValue={setValue}
+                  order={order}
+                  submit={handelSubmit}
+                />
+                
+              </>
             ) : (
               ""
             )}
@@ -272,7 +269,6 @@ export default function Orders() {
                 value={value}
                 setValue={setValue}
                 order={order}
-
               />
             ) : (
               ""
