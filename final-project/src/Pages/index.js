@@ -1,5 +1,5 @@
 import Home from "./User/home/Home";
-import Checkout from "./User/Checkout";
+import Checkout from "./User/basket/Checkout";
 import AllProducts from "./User/Allproducts/AllProducts";
 import Pay from "./User/Pay";
 import Purchase from "./User/Purchase";

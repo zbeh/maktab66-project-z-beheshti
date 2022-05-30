@@ -1,0 +1,35 @@
+@import '../../../Style/variables';
+.main{
+    padding: 2rem 0rem;
+}
+.table{
+    font-size: medium !important;
+    text-align: center !important;
+    font-weight: bold !important;
+}
+.tcontainer{
+    width: 700px !important;
+    height: 600px!important;
+    direction: rtl !important;
+    font-size: medium !important;
+    text-align: center !important;
+ }
+ .btn{
+    background-color: $main !important;
+    padding: 1rem 2.5rem !important;
+    color: white !important;
+    font-size: large !important;
+    font-weight: bold !important;
+    // margin: .5rem;
+   
+}
+.total{
+    padding-left: 18rem;
+}
+.priceContainer{
+    margin-top: 2rem;
+    padding: 1rem;
+    // & a{
+    //     padding: .5rem;
+    // }
+}

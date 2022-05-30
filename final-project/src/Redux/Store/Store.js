@@ -5,6 +5,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import CategoryReducer from '../Reducer/CategoryReducer'
 import SubReducer from '../Reducer/SubReducer'
 import TokenReducer from '../Reducer/TokenReducer'
+import BasketReducer from '../Reducer/BasketReducer'
 const loadPreloadedState =()=>{
   try{
     const serializedState =localStorage.getItem("state");
@@ -34,7 +35,8 @@ const saveData = (state)=>{
     orders : ordersReducer,
     category:CategoryReducer,
     subCategory: SubReducer,
-    token:TokenReducer
+    token:TokenReducer,
+    basket:BasketReducer
   },
 })
 store.subscribe(()=>{

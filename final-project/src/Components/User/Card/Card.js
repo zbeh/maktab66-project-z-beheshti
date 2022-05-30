@@ -13,7 +13,7 @@ export default function Card(props) {
           <p>{item.name}</p>
         </div>
         <div className={cardStyles.contentContainer}>
-          <p>{item.price} تومان</p>
+          <p>{item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} تومان</p>
         </div>
       </Link>
     </div>
