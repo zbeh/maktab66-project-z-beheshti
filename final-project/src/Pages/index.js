@@ -12,6 +12,7 @@ import Orders from "./Admin/Orders/Orders";
 import ProtectedRoute from "./Admin/ProtectedRoute";
 import PrivateRoute from "./Admin/PrivateRoute";
 import PageNotFound from './User/PageNotFound'
+import PayResult from "./User/payResult/PayResult";
 export {
   Home,
   Checkout,
@@ -26,5 +27,6 @@ export {
   ProductDetail,
   ProtectedRoute,
   PrivateRoute,
-  PageNotFound
+  PageNotFound,
+  PayResult
 };

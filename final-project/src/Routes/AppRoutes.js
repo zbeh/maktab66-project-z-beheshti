@@ -17,6 +17,7 @@ import {
   PrivateRoute,
   PageNotFound,
   Shaparak,
+  PayResult
 } from "../Pages";
 export default function AppRoutes() {
   return (
@@ -47,6 +48,14 @@ export default function AppRoutes() {
           }
         />
         <Route path="/shaparak" element={<Shaparak />} />
+        <Route
+          path="/pay-result"
+          element={
+            <UserLayout>
+              <PayResult />
+            </UserLayout>
+          }
+        />
         <Route
           path="/purchase"
           element={

@@ -1,12 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useDispatch,useSelector } from "react-redux";
 import headerStyles from "./headerStyles.module.scss";
 import logo from "../../../Assets/Images/3f1a34dc4b430a8d6dd2545659cb722d-removebg-preview.png";
 import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
+import { update } from "../../../Redux/Reducer/UpdateReducer";
 import Badge from "@mui/material/Badge";
 export default function Header() {
-  const orders = JSON.parse(localStorage.getItem('items')).length
-  console.log(orders);
+  // const[update,setUpdate] = useState(false)
+  const info =  useSelector((state) => state.update)
+  console.log(info);
+  const dispatch = useDispatch()
+  let orders
+  // useEffect(()=>{
+  //  dispatch(update(false))
+  // },[])
+  // useEffect(()=>{
+    if(localStorage.getItem('items')){
+    orders = JSON.parse(localStorage.getItem('items')).length
+    console.log(orders);
+  }
+  // dispatch(update(false))
+  // },[info])
+ 
+  
+  
   return (
     <header
       className={`${headerStyles.containerFluid} d-flex justify-between align-center`}

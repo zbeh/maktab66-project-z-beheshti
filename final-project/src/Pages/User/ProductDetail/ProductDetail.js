@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useFetch } from "../../../Helper/USeFetch";
 import productDetailStyles from "./productDetailStyles.module.scss";
+import { useSelector } from "react-redux";
+
 import {
   Button,
   Typography,
@@ -15,6 +17,7 @@ import "swiper/css/navigation";
 import { EffectFlip, Pagination, Navigation } from "swiper";
 import { useDispatch } from 'react-redux';
 import { setBasket } from '../../../Redux/Reducer/BasketReducer';
+import { update } from "../../../Redux/Reducer/UpdateReducer";
 export default function ProductDetail() {
   const { id } = useParams();
   const [item, setItem] = useState([]);
@@ -22,6 +25,7 @@ export default function ProductDetail() {
   const { data, loading, error } = useFetch(
     `http://localhost:3002/products?id=${id}`
   );
+  
   //  useEffect(() => {
   //    const items = window.localStorage.getItem('item')
   //    setItem(item=>[...item,JSON.parse(items)])
@@ -37,6 +41,7 @@ export default function ProductDetail() {
   }
   console.log(quantity);
   const handleClick = () =>{
+    // dispatch(update(true))
     let newItem = {id:data.data[0].id,name:data.data[0].name,price:data.data[0].price,quantity:quantity}
     // dispatch(setBasket(newItem))
      if(localStorage.getItem('items')){
