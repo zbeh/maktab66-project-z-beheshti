@@ -5,7 +5,6 @@ import AdminLayout from "../Layout/AdminLayout";
 import {
   Login,
   Checkout,
-  Pay,
   Purchase,
   Home,
   Panel,
@@ -16,7 +15,8 @@ import {
   Orders,
   ProtectedRoute,
   PrivateRoute,
-  PageNotFound
+  PageNotFound,
+  Shaparak,
 } from "../Pages";
 export default function AppRoutes() {
   return (
@@ -46,14 +46,7 @@ export default function AppRoutes() {
             </UserLayout>
           }
         />
-        <Route
-          path="/pay"
-          element={
-            <UserLayout>
-              <Pay />
-            </UserLayout>
-          }
-        />
+        <Route path="/shaparak" element={<Shaparak />} />
         <Route
           path="/purchase"
           element={
@@ -93,8 +86,7 @@ export default function AppRoutes() {
           <Route path="orders" element={<Orders />} />
         </Route>
 
-        <Route path="*" element={<PageNotFound/>} />
-
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
     </>
   );

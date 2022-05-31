@@ -1,7 +1,7 @@
 import Home from "./User/home/Home";
 import Checkout from "./User/basket/Checkout";
 import AllProducts from "./User/Allproducts/AllProducts";
-import Pay from "./User/Pay";
+import Shaparak from "./User/shaparak/Shaparak";
 import Purchase from "./User/purchase/Purchase";
 import ProductDetail from "./User/ProductDetail/ProductDetail";
 import Login from "./Admin/Login/Login";
@@ -15,7 +15,7 @@ import PageNotFound from './User/PageNotFound'
 export {
   Home,
   Checkout,
-  Pay,
+  Shaparak,
   Purchase,
   AllProducts,
   Products,
