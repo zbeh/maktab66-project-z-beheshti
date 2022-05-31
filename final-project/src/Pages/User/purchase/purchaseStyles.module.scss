@@ -1,0 +1,38 @@
+@import '../../../Style/variables';
+.form{
+    width: 50%;
+    margin: auto;
+    // & input{
+    //     display:inline-block;
+    //     width: 40%;
+    //     margin: 1rem;
+    // }
+  
+}
+.inputContainer{
+    width: 50% !important;
+    margin-bottom: 1rem;
+    & label{
+        font-size: larger;
+        font-weight: bold;
+        margin-left: 2rem;
+    }
+}
+.label{
+    font-size: larger;
+        font-weight: bold;
+        margin-left: .5rem;
+}
+.btn{
+    margin-top: 2rem;
+    text-align: center;
+    & button{
+         background-color: $main !important;
+    padding: .5rem 2rem;
+    color: white !important;
+    font-size: large !important;
+    font-weight: bold !important;
+    margin: 0 .5rem !important;
+    }
+   
+}

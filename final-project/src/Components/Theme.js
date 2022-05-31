@@ -6,5 +6,5 @@ export  const theme = createTheme({
         'main',
       ].join(','),
     },
-    faIR
+    direction: 'rtl',
 });

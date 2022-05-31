@@ -2,7 +2,7 @@ import Home from "./User/home/Home";
 import Checkout from "./User/basket/Checkout";
 import AllProducts from "./User/Allproducts/AllProducts";
 import Pay from "./User/Pay";
-import Purchase from "./User/Purchase";
+import Purchase from "./User/purchase/Purchase";
 import ProductDetail from "./User/ProductDetail/ProductDetail";
 import Login from "./Admin/Login/Login";
 import Products from "./Admin/products/Products";
