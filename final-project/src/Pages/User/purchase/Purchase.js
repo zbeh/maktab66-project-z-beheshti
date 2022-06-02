@@ -11,33 +11,28 @@ import purchaseStyles from "./purchaseStyles.module.scss";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
+import { useSelector } from "react-redux";
 export default function Purchase() {
-  const token = localStorage.getItem("token");
-  const navigate = useNavigate();
-  const [value, setValue] = useState(
-    new DateObject({ calendar: persian }).set("date")
-  );
+  const [value, setValue] = useState(new DateObject({ calendar: persian }));
+  let date = new DateObject({ calendar: persian });
+  let min = date.day + 7;
+  console.log(min);
   const [order, setOrder] = useState();
   const [send, setSend] = useState(false);
+  const info = useSelector((state) => state.basket.orderItems);
+  const purchaseTotal = useSelector((state) => state.basket.total);
+  console.log(info);
+  console.log(purchaseTotal);
   useEffect(() => {
     if (send) {
-      axios
-        .post("http://localhost:3002/orders", order, {
-          headers: { "Content-Type": "application/json", token: token },
-        })
-        .then((res) => console.log(res))
-      .catch((err) => {
-        if (err.response.status == 401) {
-          localStorage.removeItem("token");
-          navigate("/login");
-        }
-        toast.error('عملیات با خطا مواجه شد.')
-        console.log(err);
-        console.log(token);
-      });
-      navigate('/shaparak')
+      localStorage.setItem("orders", JSON.stringify(order));
+      toast.success("اطلاعات با موفقیت ثبت شد.");
+      window.location.replace(
+        "http://127.0.0.1:5500/final-project/public/Shaparak.html"
+      );
     }
-    setSend(false)
+    setSend(false);
+    setOrder(null);
   }, [send]);
   const formik = useFormik({
     initialValues: {
@@ -55,24 +50,35 @@ export default function Purchase() {
         .required("این فیلد نمی تواند خالی باشد."),
       address: Yup.string().required("این فیلد نمی تواند خالی باشد."),
       phone: Yup.number()
-        .min(11, "نام کمتر از 11 عدد نمی تواند باشد.")
+        .min(11, "شماره تلفن همراه کمتر از 11 عدد نمی تواند باشد.")
         .required("این فیلد نمی تواند خالی باشد."),
-      // deliveryDate: Yup.string().required("تاریخ مورد نظر را انتخاب کنید."),
     }),
     onSubmit: (values) => {
-      setOrder({
-        firstName: values.firstName,
-        lastName: values.lastName,
-        phone: values.phone,
-        address: values.address,
-        orderStatus: 2,
-        orderDate: value.toUnix(),
-      });
-      setSend(true);
+      if (value.day < min) {
+        toast.error("تاریخ وارد شده صحیح نمی باشد.");
+      } else {
+        setOrder({
+          customerDetail: {
+            firstName: values.firstName,
+            lastName: values.lastName,
+            phone: values.phone,
+            address: values.address,
+          },
+          orderStatus: 2,
+          devilvery: value.toUnix() * 1000,
+          orderDate: Date.now(),
+          orderItems: info,
+          purchaseTotal: purchaseTotal,
+          orderNumber: Math.floor(Math.random() * 1000) + 1,
+        });
+        setSend(true);
+      }
     },
   });
   console.log(order);
   console.log(value.toUnix());
+  // let now = new Date(1655450122000).toLocaleDateString("fa-IR");
+  // console.log(now);
   return (
     <div className="container">
       <Toaster position="top-center" reverseOrder={false} />
@@ -82,7 +88,6 @@ export default function Purchase() {
           onSubmit={formik.handleSubmit}
           className={`${purchaseStyles.form} `}
         >
-          {/* <div className="d-flex justify-between"> */}
           <TextField
             id="firstName"
             name="firstName"
@@ -142,22 +147,22 @@ export default function Purchase() {
           {formik.touched.phone && formik.errors.phone ? (
             <div className="error">{formik.errors.phone}</div>
           ) : null}
+          <div className={purchaseStyles.datePicker}>
+            <label className={purchaseStyles.label} htmlFor="delivery">
+              {" "}
+              تاریخ تحویل
+            </label>
 
-          <label className={purchaseStyles.label} htmlFor="delivery">
-            {" "}
-            تاریخ تحویل
-          </label>
-
-          <DatePicker
-            calendar={persian}
-            locale={persian_fa}
-            calendarPosition="bottom-right"
-            value={value}
-            minDate={new DateObject({ calendar: persian })}
-            onChange={setValue}
-          />
-
-          {/* </div> */}
+            <DatePicker
+              calendar={persian}
+              locale={persian_fa}
+              calendarPosition="bottom-right"
+              value={value}
+              minDate={new DateObject({ calendar: persian }).set("day", min)}
+              onChange={setValue}
+              
+            />
+          </div>
           <div className={purchaseStyles.btn}>
             <Button type="submit">پرداخت</Button>
           </div>

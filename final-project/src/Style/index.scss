@@ -32,18 +32,21 @@ a{
 .MuiDataGrid-menuIcon{
   display:none !important
 }
-.MuiTablePagination-actions{
-  & svg{
-    transform: rotate(180deg);
-  }
+// .MuiTablePagination-actions{
+//   & svg{
+//     transform: rotate(180deg);
+//   }
   
-}
+// }
 .MuiPagination-ul {
   justify-content: center !important;
-  & svg{
-    transform: rotate(180deg);
-  }
+  // & svg{
+  //   transform: rotate(180deg);
+  // }
   
+}
+.MuiDialogTitle-root{
+  direction:ltr !important ;
 }
 .swiper-button-nex {
   &::after{

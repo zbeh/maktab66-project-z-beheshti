@@ -36,3 +36,10 @@
     }
    
 }
+.datePicker{
+    & input{
+    height: 35px !important;
+    padding: 8px 118px!important;
+    text-align: center !important;
+}
+}

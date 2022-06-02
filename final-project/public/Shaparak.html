@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>shaparak</title>
+</head>
+<style>
+    @font-face {
+            font-family:"iranSanse";
+            src: url('../src/Assets/Font/IRAN\ Sans\ Regular\ \(mmrostami.blog.ir\).ttf');
+        }
+    body{
+       font-family:iranSanse !important; 
+    }
+    .container{
+        width:80%;
+        margin: auto;
+    }
+    .imgContainer{
+      padding: 2rem;
+      text-align: center;
+    }
+    .btn{
+      background-color: #be965b  ;
+      padding: .5rem 4rem  ;
+      color: white !important ;
+      font-size: large ;
+      font-weight: bold ;
+     margin: 0 .5rem  ;
+     outline: none !important;
+     border: #be965b;
+     border-radius: 6px;
+    
+    }
+   .bttn{
+     background-color: white !important;
+     padding: .5rem 4rem !important;
+     color: #be965b !important;
+     font-size: large !important;
+     font-weight: bold !important;
+     margin: 0 .5rem !important;
+     border:1px solid #be965b !important;
+     border-radius: 6px;
+     
+   }
+  .btnContainer{
+     text-align: center;
+      margin-top: 2rem;
+    }
+    a{
+        text-decoration: none;
+    }
+    .success{
+        color:white
+    }
+    .fail{
+        color: #be965b;
+    }
+</style>
+<body>
+    <div class="container imgContainer">
+        <img src="../src/Assets/Images/pay.png"/>
+        <div class="btnContainer">
+            <button class="btn"><a class="success" href="http://localhost:3000/pay-result?status=successful">پرداخت</a></button>
+            <button class="bttn" ><a class="fail" href="http://localhost:3000/pay-result?status=fail">انصراف</a></button>
+            
+        </div>
+    </div>
+
+</body>
+</html>

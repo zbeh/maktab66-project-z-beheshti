@@ -1,4 +1,26 @@
+@import '../../../Style/variables';
 .imgContainer{
     padding: 2rem;
     text-align: center;
+}
+.btn{
+    background-color: $main !important;
+    padding: .5rem 4rem !important;
+    color: white !important;
+    font-size: large !important;
+    font-weight: bold !important;
+    margin: 0 .5rem !important;
+}
+.bttn{
+    background-color: white !important;
+    padding: .5rem 4rem !important;
+    color: $main !important;
+    font-size: large !important;
+    font-weight: bold !important;
+    margin: 0 .5rem !important;
+    border:1px solid $main !important;
+}
+.btnContainer{
+    text-align: center;
+    margin-top: 2rem;
 }

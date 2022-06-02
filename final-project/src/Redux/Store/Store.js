@@ -6,7 +6,6 @@ import CategoryReducer from '../Reducer/CategoryReducer'
 import SubReducer from '../Reducer/SubReducer'
 import TokenReducer from '../Reducer/TokenReducer'
 import BasketReducer from '../Reducer/BasketReducer'
-import UpdateReducer from '../Reducer/UpdateReducer'
 const loadPreloadedState =()=>{
   try{
     const serializedState =localStorage.getItem("state");
@@ -38,7 +37,6 @@ const saveData = (state)=>{
     subCategory: SubReducer,
     token:TokenReducer,
     basket:BasketReducer,
-    update:UpdateReducer
   },
 })
 store.subscribe(()=>{

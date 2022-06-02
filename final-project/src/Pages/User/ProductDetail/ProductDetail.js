@@ -3,67 +3,54 @@ import { useParams } from "react-router-dom";
 import { useFetch } from "../../../Helper/USeFetch";
 import productDetailStyles from "./productDetailStyles.module.scss";
 import { useSelector } from "react-redux";
+import toast, { Toaster } from "react-hot-toast";
 
-import {
-  Button,
-  Typography,
-  CircularProgress,
-} from "@mui/material";
+import { Button, Typography, CircularProgress } from "@mui/material";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/effect-flip";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { EffectFlip, Pagination, Navigation } from "swiper";
-import { useDispatch } from 'react-redux';
-import { setBasket } from '../../../Redux/Reducer/BasketReducer';
-import { update } from "../../../Redux/Reducer/UpdateReducer";
+import { useDispatch } from "react-redux";
+import { AddToBasket } from "../../../Redux/Reducer/BasketReducer";
 export default function ProductDetail() {
   const { id } = useParams();
   const [item, setItem] = useState([]);
-  const [quantity,setQuantity] = useState()
+  const [quantity, setQuantity] = useState();
   const { data, loading, error } = useFetch(
     `http://localhost:3002/products?id=${id}`
   );
-  
-  //  useEffect(() => {
-  //    const items = window.localStorage.getItem('item')
-  //    setItem(item=>[...item,JSON.parse(items)])
-  // }, []);
-
-  // useEffect(() => {
-    
-  // }, [item]);
   console.log(data);
-  const dispatch = useDispatch()
-  const handleChange = (e) =>{
-    setQuantity(e.target.value)
-  }
+  const dispatch = useDispatch();
+  const handleChange = (e) => {
+    setQuantity(e.target.value);
+  };
   console.log(quantity);
-  const handleClick = () =>{
-    // dispatch(update(true))
-    let newItem = {id:data.data[0].id,name:data.data[0].name,price:data.data[0].price,quantity:quantity}
-    // dispatch(setBasket(newItem))
-     if(localStorage.getItem('items')){
-       const localData = JSON.parse(localStorage.getItem('items'))
-       const targetItem = localData.findIndex(i=>i.id==newItem.id)
-       console.log(targetItem);
-       if(targetItem>=0){
-         localData.splice(targetItem,1)
-         console.log(localData);
-         localStorage.setItem('items', JSON.stringify(localData));
-         const newLocal = JSON.parse(localStorage.getItem('items'))
-         localStorage.setItem('items', JSON.stringify([...newLocal,newItem]))
-       }
-      localStorage.setItem('items', JSON.stringify([...localData,newItem]))
-     }else{
-        localStorage.setItem('items', JSON.stringify([newItem]))
-     }
-     
-  }
-  
-  // window.localStorage.setItem('item', JSON.stringify(item));
-   console.log(item);
+  console.log(data?.data[0].count);
+  // let total = data?.data[0].count
+  const handleClick = () => {
+    let total = data.data[0].count
+    console.log(total);
+    
+   if(Number(quantity) > Number(total)){
+      toast.error("تعداد وارد شده بیشتر از موجودی محصول می باشد.");
+   }
+    else if (!quantity) {
+      toast.error("تعداد وارد شده صحیح نمی باشد.");
+    } 
+    else {
+      let newItem = {
+        id: data.data[0].id,
+        name: data.data[0].name,
+        price: data.data[0].price,
+        quantity: quantity,
+        thumbnail: data.data[0].thumbnail,
+      };
+      dispatch(AddToBasket(newItem));
+    }
+  };
+  console.log(item);
   if (error) {
     return (
       <>
@@ -96,27 +83,42 @@ export default function ProductDetail() {
                     data.data[0].images[0] &&
                     data?.data[0].images.map((i) => (
                       <SwiperSlide className={productDetailStyles.SwiperSlide}>
-                        <img src={`http://localhost:3002/files/${i}`} alt="مشکل در نمایش تصویر" />
+                        <img
+                          src={`http://localhost:3002/files/${i}`}
+                          alt="مشکل در نمایش تصویر"
+                        />
                       </SwiperSlide>
                     ))}
                 </Swiper>
 
                 <div className={productDetailStyles.info}>
                   <p>{data.data[0].name}</p>
-                  <p>{data.data[0].price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} تومان</p>
-                  <div className="d-flex">
-                    <input
-                      type="number"
-                      name="count"
-                      min="1"
-                      max={`${data.data[0].count}`}
-                      placeholder="1"
-                      onChange={handleChange}
-                    />
-                    <Button className={productDetailStyles.btn} onClick={handleClick}>
-                      افزودن به سبد خرید
-                    </Button>
-                  </div>
+                  <p>
+                    {data.data[0].price
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}{" "}
+                    تومان
+                  </p>
+                  {data.data[0].count > 0 ? (
+                    <div className="d-flex">
+                      <input
+                        type="number"
+                        name="count"
+                        min="1"
+                        // max={`${data.data[0].count}`}
+                        placeholder="0"
+                        onChange={handleChange}
+                      />
+                      <Button
+                        className={productDetailStyles.btn}
+                        onClick={handleClick}
+                      >
+                        افزودن به سبد خرید
+                      </Button>
+                    </div>
+                  ) : (
+                    <p>متاسفانه محصول موجود نمی باشد.</p>
+                  )}
 
                   <p
                     dangerouslySetInnerHTML={{
