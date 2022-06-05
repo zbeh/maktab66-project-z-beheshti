@@ -1,5 +1,12 @@
 @import '../../../Style/variables';
+@import '../../../Style/mixin';
 .cardConatiner{
+    @include respond-to('small'){
+        padding:0rem !important;
+    }
+    @include respond-to('medium'){
+        padding: 1rem !important;
+    }
     margin-top: 2rem !important;
     display: flex !important;
     justify-content: space-between !important;
@@ -8,6 +15,14 @@
     padding: 2rem !important;
 }
 .card{
+    @include respond-to('small'){
+        flex-basis: 100% !important;
+        width: 100% !important;
+    }
+    @include respond-to('medium'){
+        flex-basis: 40% !important;
+        width: 100% !important;
+    }
     flex-basis: 21% ;
     margin: 1.5rem 1rem;
     width: 100%;

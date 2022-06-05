@@ -24,7 +24,7 @@ export default function Header() {
       <div
         className={`${headerStyles.logoContainer} d-flex justify-between align-center`}
       >
-        <Link to="/" className={`${headerStyles.logo} d-flex`}>
+        <Link to="/" className={`${headerStyles.logo} d-flex align-center`}>
           <img src={logo} className={headerStyles.image} />
           <h1 style={{ color: "white" }}>مای استایل </h1>
         </Link>
@@ -36,7 +36,7 @@ export default function Header() {
         className={`${headerStyles.navContainer} d-flex justify-between align-center`}
       >
         <Link to="/login">
-          <h3 style={{ color: "white" }}>مدیریت </h3>
+          <h3 >مدیریت </h3>
         </Link>
         {show ? (
           <></>
@@ -46,7 +46,7 @@ export default function Header() {
               <Badge badgeContent={orders} color="primary">
                 <LocalGroceryStoreIcon className={headerStyles.icon} />
               </Badge>
-              <h3 style={{ color: "white" }}>سبد خرید </h3>
+              <h3 >سبد خرید </h3>
             </Link>
             
           </div>
