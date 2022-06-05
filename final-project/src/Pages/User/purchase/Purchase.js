@@ -13,7 +13,8 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import { useSelector } from "react-redux";
 export default function Purchase() {
-  const [value, setValue] = useState(new DateObject({ calendar: persian }));
+  const [value, setValue] = useState();
+  // new DateObject({ calendar: persian })
   let date = new DateObject({ calendar: persian });
   let min = date.day + 7;
   console.log(min);
@@ -65,7 +66,7 @@ export default function Purchase() {
             address: values.address,
           },
           orderStatus: 2,
-          devilvery: value.toUnix() * 1000,
+          delivery: value.toUnix() * 1000,
           orderDate: Date.now(),
           orderItems: info,
           purchaseTotal: purchaseTotal,
@@ -76,7 +77,7 @@ export default function Purchase() {
     },
   });
   console.log(order);
-  console.log(value.toUnix());
+  // console.log(value.toUnix());
   // let now = new Date(1655450122000).toLocaleDateString("fa-IR");
   // console.log(now);
   return (
@@ -160,7 +161,7 @@ export default function Purchase() {
               value={value}
               minDate={new DateObject({ calendar: persian }).set("day", min)}
               onChange={setValue}
-              
+              placeholder="زمان مورد نظر را انتخاب کنید."
             />
           </div>
           <div className={purchaseStyles.btn}>

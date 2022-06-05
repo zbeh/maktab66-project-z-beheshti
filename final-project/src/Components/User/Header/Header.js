@@ -35,19 +35,20 @@ export default function Header() {
       <nav
         className={`${headerStyles.navContainer} d-flex justify-between align-center`}
       >
-        <Link to="/admin-panel">
+        <Link to="/login">
           <h3 style={{ color: "white" }}>مدیریت </h3>
         </Link>
         {show ? (
           <></>
         ) : (
           <div className="d-flex align-center">
-            <Link to="/checkout">
+            <Link to="/checkout" className="d-flex align-center">
               <Badge badgeContent={orders} color="primary">
                 <LocalGroceryStoreIcon className={headerStyles.icon} />
               </Badge>
+              <h3 style={{ color: "white" }}>سبد خرید </h3>
             </Link>
-            <h3 style={{ color: "white" }}>سبد خرید </h3>
+            
           </div>
         )}
       </nav>

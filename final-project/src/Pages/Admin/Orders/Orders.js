@@ -21,9 +21,6 @@ export default function Orders() {
   const [selectedValue, setSelectedValue] = useState("b");
   const [edit, setEdit] = useState(false);
   const [newOrder, setNewOrder] = useState([]);
-  const [value, setValue] = useState(
-    new DateObject({ calendar: persian }).set("date")
-  );
   const data = useSelector((state) => state.orders);
   // console.log(data);
   const handleChange = (event) => {
@@ -131,15 +128,14 @@ export default function Orders() {
     setOpen(false);
     setNewModal(false);
   };
-  console.log("value", value.toUnix());
 
   const handelSubmit = (e) => {
     e.preventDefault();
     axios
       .patch(
         `http://localhost:3002/orders/${order.id}`,
-        { orderStatus: 1, deliveredAt: value.toUTC() },
-        { headers: { "Content-Type": "application/json", token: token } }
+        { orderStatus: 1, deliveredAt: Date.now()},
+        { headers: { token: token } }
       )
       .then((res) => console.log(res))
       .catch((err) => {
@@ -236,8 +232,6 @@ export default function Orders() {
                   show={open}
                   close={handleClose}
                   date={true}
-                  value={value}
-                  setValue={setValue}
                   order={order}
                   submit={handelSubmit}
                 />
@@ -266,8 +260,6 @@ export default function Orders() {
                 show={newModal}
                 close={handleClose}
                 date={false}
-                value={value}
-                setValue={setValue}
                 order={order}
               />
             ) : (

@@ -52,7 +52,7 @@ const BootstrapDialogTitle = (props) => {
   );
 };
 export default function OrderModal(props) {
-  const { show, close, order, date, submit, value, setValue } = props;
+  const { show, close, order, date, submit } = props;
   //   const [value, setValue] = useState(
   //     new DateObject({ calendar: persian }).set("date")
   //   );
@@ -86,26 +86,12 @@ export default function OrderModal(props) {
           </div>
 
           <div>
-            {date ? (
-              <>
-                <span>زمان تحویل:</span>
-                <DatePicker
-                  calendar={persian}
-                  locale={persian_fa}
-                  calendarPosition="bottom-right"
-                  value={value}
-                  minDate={new DateObject({ calendar: persian })}
-                  onChange={setValue}
-                />
-              </>
-            ) : (
-              <div>
-                <span>زمان تحویل:</span>
-                <span>
-                  {new Date(order.delivery).toLocaleDateString("fa-IR")}
-                </span>
-              </div>
-            )}
+            <div>
+              <span>زمان تحویل:</span>
+              <span>
+                {new Date(order.delivery).toLocaleDateString("fa-IR")}
+              </span>
+            </div>
           </div>
           <TableContainer component={Paper} sx={{ marginTop: "2rem" }}>
             <Table sx={{ width: "500px" }} aria-label="simple table">
@@ -123,14 +109,15 @@ export default function OrderModal(props) {
                     sx={{
                       "&:last-child td, &:last-child th": {
                         border: 0,
+                        textAlign:"right"
                       },
                     }}
                   >
                     <TableCell align="right" component="th" scope="row">
                       {row.name}
                     </TableCell>
-                    <TableCell align="right">{row.price}</TableCell>
-                    <TableCell align="right">{row.quantity}</TableCell>
+                    <TableCell align="right" component="th" scope="row">{row.price}</TableCell>
+                    <TableCell align="right"component="th" scope="row">{row.quantity}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -147,7 +134,6 @@ export default function OrderModal(props) {
                 >
                   تحویل شد
                 </Button>
-                
               </>
             ) : (
               <>
