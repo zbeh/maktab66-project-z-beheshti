@@ -1,5 +1,11 @@
+@import '../../../Style/variables';
+@import '../../../Style/mixin';
 .tcontainer{
-   width: 700px !important;
+    @include respond-to('small'){
+        width: 330px !important;
+        margin-bottom: 2rem !important;
+    }
+   width: 600px !important;
    height: 600px!important;
    direction: rtl !important;
    font-size: medium !important;
@@ -7,6 +13,7 @@
 }
 .mt3{
     margin-top:3rem !important;
+    margin-bottom: 2rem !important;
 }
 .fbold{
     font-weight: bold !important;
@@ -17,6 +24,11 @@
     font-weight: bold !important;
 }
 .add{
+    @include respond-to('small'){
+        width: 124px !important;
+        padding: .5rem 1rem !important;
+    }
+    background-color: $main !important;
     padding: .5rem 2rem !important;
     font-size: bold !important;
 }
@@ -26,4 +38,11 @@
 .btn{
      text-align: center ;
     margin-top: 1rem !important;
+}
+.editIcon{
+    color: $primary !important;
+    padding-left: 1rem !important;
+}
+.deleteIcon{
+    color: $primary !important;
 }

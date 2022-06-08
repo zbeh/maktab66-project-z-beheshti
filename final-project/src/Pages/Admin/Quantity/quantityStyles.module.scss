@@ -1,12 +1,26 @@
+@import '../../../Style/variables';
+@import '../../../Style/mixin';
 .container{
     margin-top: 3rem !important;
     font-weight: bolder !important;
 }
 .tcontainer{
+    @include respond-to('small'){
+        width: 320px !important;
+    }
    direction: rtl !important;
    margin-top: 3rem !important;
-   width: 500px !important;
+   width: 450px !important;
    height: 400px!important;
    font-size: medium !important;
    text-align: center !important;
+}
+.btn{
+    @include respond-to('small'){
+        width: 64px !important;
+         padding: 0rem 2.7rem !important;
+    }
+    background-color: $main !important;
+    padding: .5rem 2rem !important;
+    font-weight: bolder !important;
 }

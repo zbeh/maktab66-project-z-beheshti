@@ -1,16 +1,23 @@
 @import '../../../Style/variables';
+@import '../../../Style/mixin';
 
 .proContainer{
     width: 85% !important;
     overflow: hidden;
 }
 .cardConatiner{
-    margin-top: 2rem !important;
-    display: flex !important;
-    justify-content: space-between !important;
-    align-items: center !important;
-    flex-wrap: wrap !important;
-    padding: 2rem !important;
+    @include respond-to('small'){
+        padding: 0 !important;
+    }
+    @include respond-to('medium'){
+        padding: 1rem;
+    }
+    margin-top: 2rem ;
+    display: flex ;
+    justify-content: space-between ;
+    align-items: center ;
+    flex-wrap: wrap ;
+    padding: 2rem ;
 }
 .card{
     flex-basis: 25% ;
@@ -34,5 +41,8 @@
    
 }
 .center{
+    @include respond-to('small'){
+        width: 100% !important;
+    }
  margin-top: 5rem !important;
 }

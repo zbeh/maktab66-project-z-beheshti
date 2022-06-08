@@ -1,4 +1,5 @@
 @import '../../../Style/variables';
+@import '../../../Style/mixin';
 .title{
     padding: 1rem 0rem;
     & a{
@@ -15,7 +16,10 @@
     
 }
 .sideContainer{
-    width: 15% !important;
+    @include respond-to('small'){
+        width: 34% !important;
+    }
+    width: 15% ;
 }
 .sub{
     margin: 2rem 0rem !important;

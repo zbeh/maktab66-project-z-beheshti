@@ -13,10 +13,12 @@
         }
     body{
        font-family:iranSanse !important; 
+       
     }
     .container{
         width:80%;
         margin: auto;
+        overflow: hidden !important;
     }
     .imgContainer{
       padding: 2rem;
@@ -49,6 +51,14 @@
      text-align: center;
       margin-top: 2rem;
     }
+    .d-flex{
+        display: flex;
+    }
+    .c-direction{
+       flex-direction: column;
+       justify-content: space-between;
+       align-items: center;
+    }
     a{
         text-decoration: none;
     }
@@ -60,9 +70,9 @@
     }
 </style>
 <body>
-    <div class="container imgContainer">
+    <div class="container imgContainer d-flex c-direction">
         <img src="../src/Assets/Images/pay.png"/>
-        <div class="btnContainer">
+        <div class="btnContainer d-flex">
             <button class="btn"><a class="success" href="http://localhost:3000/pay-result?status=successful">پرداخت</a></button>
             <button class="bttn" ><a class="fail" href="http://localhost:3000/pay-result?status=fail">انصراف</a></button>
             

@@ -59,8 +59,8 @@ export default function ProductDetail() {
     );
   }
   return (
-    <>
-      <div className={productDetailStyles.proContainer}>
+    
+      <div className="container">
         {loading ? (
           <div
             className={`${productDetailStyles.center} d-flex justify-center`}
@@ -100,7 +100,7 @@ export default function ProductDetail() {
                     تومان
                   </p>
                   {data.data[0].count > 0 ? (
-                    <div className="d-flex">
+                    <div className={`${productDetailStyles.inputContainer} d-flex`}>
                       <input
                         type="number"
                         name="count"
@@ -131,6 +131,6 @@ export default function ProductDetail() {
           </>
         )}
       </div>
-    </>
+    
   );
 }

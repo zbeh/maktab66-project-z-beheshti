@@ -1,7 +1,19 @@
 @import '../../../Style/variables';
+@import '../../../Style/mixin';
 .link{
     color: $primary;
 }
-.bg{
+.box{
+    @include respond-to('small'){
+        width: 65% !important;
+    }
+    display:flex;
+    justify-content:space-between;
+    padding: 1rem 2rem;
+    width:40% !important;
     background-color: $smokyBlue;
+}
+.navigation{
+    background-color: $primary !important;
+    padding: 1rem 0rem !important;
 }

@@ -1,0 +1,42 @@
+@import '../../../Style/variables';
+@import '../../../Style/mixin';
+.btn{
+    @include respond-to('small'){
+        padding: .5rem 4rem !important;
+    }
+   background-color:$main !important;
+   color:white !important;
+   font-size: larger !important;
+   font-weight: bold !important;
+   padding: .5rem 4rem !important;
+}
+.box{
+    @include respond-to('small'){
+        width: 80% !important;
+    }
+    @include respond-to('medium'){
+        width: 80% !important;
+    }
+    // background-color: $primary !important;
+    // opacity: .8 !important;
+    border-radius: 8px !important;
+    background-color: white !important;
+    width: 30% !important;
+    padding: 2rem 0rem !important;
+}
+.holder{
+    padding-top: 12rem!important;
+    padding-bottom: 19rem;
+    @include respond-to('small'){
+        padding-bottom: 19rem !important;
+    }
+    @include respond-to('medium'){
+        padding-bottom: 26rem;
+    }
+    background-image:url('../../../Assets/Images/pexels-photo-2447043.jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+a{
+    color: black !important;
+}

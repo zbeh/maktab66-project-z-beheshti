@@ -1,5 +1,12 @@
 @import '../../../Style/variables';
+@import '../../../Style/mixin';
 .form{
+    @include respond-to('small'){
+        width: 100% !important;
+    }
+    @include respond-to('medium'){
+        width: 80%;
+    }
     width: 50%;
     margin: auto;
     // & input{
@@ -27,7 +34,13 @@
     margin-top: 2rem;
     text-align: center;
     & button{
-         background-color: $main !important;
+        @include respond-to('small'){
+            padding: .5rem 4rem !important;
+        }
+        @include respond-to('medium'){
+            padding: .5rem 4rem;
+        }
+    background-color: $main !important;
     padding: .5rem 2rem;
     color: white !important;
     font-size: large !important;
@@ -38,8 +51,16 @@
 }
 .datePicker{
     & input{
+        @include respond-to('small'){
+            padding: 8px 38px !important;
+            width: 70% !important;
+        }
+        @include respond-to('medium'){
+           width: 38%;
+        }
+
     height: 35px !important;
-    padding: 8px 118px!important;
+    padding: 8px 121px !important;
     text-align: center !important;
-}
+    }
 }

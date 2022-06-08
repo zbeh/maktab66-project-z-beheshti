@@ -42,13 +42,14 @@ export default function Products() {
             onClick={(event) => {
               handleEdit(event, cellValues);
             }}
-            style={{ padding: "0 1rem" }}
+            className={productsStyles.editIcon}
           />{" "}
           <DeleteIcon
             onClick={(event) => {
               handleDelete(event, cellValues);
             }}
-            style={{ padding: "0 1rem" }}
+            className={productsStyles.deleteIcon}
+            
           />
         </>
       ),
@@ -86,7 +87,7 @@ export default function Products() {
       category.map((c) => setCat((cat) => [...cat, c]));
     console.log("product", product);
   }, [category]);
-  console.log(cat);
+  // console.log(cat);
   // useEffect(() => {
 
   //   data && data[0] && cat && cat[0] &&
@@ -120,7 +121,7 @@ export default function Products() {
         }))
       );
   }, [data, cat]);
-  console.log(row);
+  // console.log(row);
 
   // useEffect(()=>{
   //   axios.get('http://localhost:3002/products').then((res)=>{
@@ -207,7 +208,7 @@ export default function Products() {
       });
     }
   };
-  console.log(value);
+  // console.log(value);
   const handleEditproduct = (e) => {
     e.preventDefault();
     console.log("form");
@@ -291,9 +292,9 @@ export default function Products() {
       });
     }
   };
-  console.log(info);
-  console.log("t", thumbnail);
-  console.log("g", gallery);
+  // console.log(info);
+  // console.log("t", thumbnail);
+  // console.log("g", gallery);
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("form");

@@ -1,11 +1,25 @@
+@import '../../../Style/mixin';
 .success{
+    @include respond-to('small'){
+        margin-bottom: 25.3rem !important;
+    }
     color:green;
     margin-bottom: 20rem !important;
+    padding-top: 4rem;
 }
 .fail{
+    @include respond-to('small'){
+        margin-bottom: 25.3rem !important;
+    }
     color:red;
     margin-bottom: 20rem !important;
 }
 .main{
-    padding: 2rem;
+    padding: 4rem 1rem;
+    @include respond-to('small'){
+        margin-bottom: 0 !important;
+    }
+    @include respond-to('medium'){
+        margin-bottom: 13rem;
+    }
 }

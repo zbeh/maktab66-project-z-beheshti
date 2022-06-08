@@ -9,6 +9,7 @@ import Button from "@mui/material/Button";
 import { useNavigate, useLocation } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
 import { login } from "../../../Redux/Reducer/Reducer";
+import loginStyles from "./loginStyles.module.scss";
 
 import { Link } from "react-router-dom";
 export default function Login() {
@@ -52,53 +53,60 @@ export default function Login() {
     },
   });
   return (
-    <Box
-      className="container"
-      sx={{
-        marginTop: "5rem",
-        textAlign: "center",
-        padding: "3rem 1rem",
-        boxShadow: "1px 1px 5px 0px #d3d1d1",
-      }}
-    >
-      <Typography variant="h4" component="div" sx={{ mb: "1rem" }}>
-        ورود به پنل مدیریت
-      </Typography>
-      <form onSubmit={formik.handleSubmit}>
-        <label htmlFor="userName">نام کاربری</label>
-        <TextField
-          id="userName"
-          variant="filled"
-          name="userName"
-          type="text"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          sx={{ width: "100%", display: "block", mb: "1rem" }}
-          value={formik.values.userName}
-        />
-        {formik.touched.userName && formik.errors.userName ? (
-          <div className="error">{formik.errors.userName}</div>
-        ) : null}
-        <label htmlFor="password">رمز عبور</label>
-        <TextField
-          id="password"
-          variant="filled"
-          name="password"
-          type="password"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          sx={{ width: "100%", display: "block", mb: "1rem" }}
-          value={formik.values.password}
-        />
-        {formik.touched.password && formik.errors.password ? (
-          <div className="error">{formik.errors.password}</div>
-        ) : null}
+    <div className={loginStyles.holder}>
+      <Box
+        className={`${loginStyles.box} container`}
+        sx={{
+          marginTop: "5rem",
+          textAlign: "center",
+          padding: "3rem 1rem",
+          boxShadow: "1px 1px 5px 0px #d3d1d1",
+        }}
+      >
+        <Typography variant="h4" component="div" sx={{ mb: "1rem" }}>
+          ورود به پنل مدیریت
+        </Typography>
+        <form onSubmit={formik.handleSubmit}>
+          <label htmlFor="userName">نام کاربری</label>
+          <TextField
+            id="userName"
+            variant="filled"
+            name="userName"
+            type="text"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            sx={{ width: "100%", display: "block", mb: "1rem" }}
+            value={formik.values.userName}
+          />
+          {formik.touched.userName && formik.errors.userName ? (
+            <div className="error">{formik.errors.userName}</div>
+          ) : null}
+          <label htmlFor="password">رمز عبور</label>
+          <TextField
+            id="password"
+            variant="filled"
+            name="password"
+            type="password"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            sx={{ width: "100%", display: "block", mb: "1rem" }}
+            value={formik.values.password}
+          />
+          {formik.touched.password && formik.errors.password ? (
+            <div className="error">{formik.errors.password}</div>
+          ) : null}
 
-        <Button sx={{ my: "1rem" }} variant="contained" type="submit">
-          ورود
-        </Button>
-      </form>
-      <Link to="/">بازگشت به سایت</Link>
-    </Box>
+          <Button
+            sx={{ my: "1rem" }}
+            variant="contained"
+            type="submit"
+            className={loginStyles.btn}
+          >
+            ورود
+          </Button>
+        </form>
+        <Link to="/">بازگشت به سایت</Link>
+      </Box>
+    </div>
   );
 }

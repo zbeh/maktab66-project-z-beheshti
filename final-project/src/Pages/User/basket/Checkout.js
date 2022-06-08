@@ -37,12 +37,13 @@ export default function Checkout() {
         <>
           <TableContainer
             component={Paper}
-            sx={{ marginTop: "2rem", width: "60%" }}
+            sx={{width:"60%"}}
+            className ={checkoutStyles.tableContainer}
           >
             <Table sx={{ width: "100%" }} aria-label="simple table">
               <TableHead>
                 <TableRow>
-                  <TableCell align="right" sx={{ paddingLeft: "5rem" }}>
+                  <TableCell align="right">
                     تصویر کالا
                   </TableCell>
                   <TableCell align="right">کالا</TableCell>
@@ -77,11 +78,11 @@ export default function Checkout() {
                       </TableCell>
                       <TableCell align="right">{i.quantity}</TableCell>
                       <TableCell align="right">
-                        <DeleteIcon onClick={() => handleDelete(i)} />
+                        <DeleteIcon onClick={() => handleDelete(i)} className={checkoutStyles.icon}/>
                       </TableCell>
                       <TableCell align="right">
                         <Link to={`/product-details/${i.id}`}>
-                          <EditIcon />
+                          <EditIcon  className={checkoutStyles.icon}/>
                         </Link>
                       </TableCell>
                     </TableRow>

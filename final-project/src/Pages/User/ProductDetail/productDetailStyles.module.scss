@@ -1,5 +1,16 @@
 @import '../../../Style/variables';
+@import '../../../Style/mixin';
 .btn{
+  @include respond-to('small'){
+    padding: .5rem 1.8rem !important;
+    margin: 0 !important;
+    width: 174px !important;
+  }
+  @include respond-to('medium'){
+    width: 170px;
+    padding: 1rem 2rem;
+    
+  }
     background-color: $main !important;
     padding: .5rem;
     color: white !important;
@@ -8,6 +19,9 @@
     margin: 0 .5rem !important;
 }
 .info{
+  @include respond-to('medium'){
+    margin-top: 5rem;
+  }
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -17,14 +31,40 @@
     font-weight: bold;
 }
 .container{
+  @include respond-to('small'){
+    flex-wrap: wrap !important;
+    overflow: hidden !important;
+  }
+  @include respond-to('medium'){
+    flex-wrap: wrap ;
+    overflow: hidden ;
+  }
     margin-top: 3rem;
     & img{
+      @include respond-to('small'){
+        width: 250px !important;
+        height: 270px !important;
+      }
+      @include respond-to('medium'){
+        width: 500px ;
+        height: 370px;
+      }
         width: 300px;
         height: 300px;
     }
     margin-bottom: 12rem;
 }
 .swiper {
+  @include respond-to('small'){
+    flex-basis: 100%!important;
+    padding: 0px !important;
+    width: 100px !important;
+    height: 300px !important;
+  }
+  @include respond-to('medium'){
+    flex-basis: 100%;
+    padding: 0px ;
+  }
     width: 300px;
     height: 300px;
     padding: 50px;
@@ -40,5 +80,29 @@
   .swiperSlide img {
     display: block;
     width: 100%;
+  }
+  .inputContainer{
+    align-items: center;
+    @include respond-to('small'){
+      flex-wrap: wrap;
+      justify-content: flex-start;
+    }
+    @include respond-to('medium'){
+      align-items: baseline;
+    }
+    & input{
+      @include respond-to('small'){
+        width: 75% !important;
+        height: 30px !important;
+        margin-bottom: 2rem !important;
+        border: 1px solid black !important;
+      }
+      @include respond-to('medium'){
+        width: 70% ;
+        height: 30px ;
+        margin-bottom: 2rem;
+        border: 1px solid black ;
+      }
+    }
   }
   

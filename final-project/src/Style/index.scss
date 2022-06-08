@@ -1,11 +1,13 @@
+@import '../Style/mixin';
 @font-face {
   font-family: 'main';
   src: url("../Assets/Font/IRAN\ Sans\ Regular\ \(mmrostami.blog.ir\).ttf");
 }
 body{
-  margin:0;
-  box-sizing: border-box;
+  margin:0 !important;
+  box-sizing: border-box !important;
   font-family: main !important;
+  padding: 0 !important;
 }
 .container{
   width: 80%;
@@ -39,6 +41,9 @@ a{
   
 // }
 .MuiPagination-ul {
+  @include respond-to('small'){
+    justify-content: flex-start !important;
+  }
   justify-content: center !important;
   // & svg{
   //   transform: rotate(180deg);
@@ -67,4 +72,8 @@ a{
 }
 .MuiTableCell-root{
   text-align: right !important;
+}
+.muirtl-16ofan4{
+  // padding: 0% !important;
+  margin-top: 0% !important;
 }

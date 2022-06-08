@@ -1,3 +1,6 @@
+@import '../../../Style/mixin';
+@import '../../../Style/variables';
+
 .tcontainer{
     width: 700px !important;
     height: 600px!important;
@@ -17,6 +20,7 @@
      font-weight: bold !important;
  }
  .add{
+    background-color: $main !important;
      padding: .5rem 2rem !important;
      font-size: bold !important;
  }
@@ -24,6 +28,7 @@
      display: block;
  }
  .btn{
+     
       text-align: center ;
      margin-top: 1rem !important;
  }

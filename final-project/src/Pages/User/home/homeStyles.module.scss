@@ -13,22 +13,22 @@
         padding:0rem !important;
     }
     @include respond-to('medium'){
-        padding:1rem !important;
+        padding:1rem ;
     }
-    margin-top: 2rem !important;
-    display: flex !important;
-    justify-content: space-between !important;
-    align-items: center !important;
-    flex-wrap: wrap !important;
-    padding: 2rem !important;
+    margin-top: 2rem ;
+    display: flex ;
+    justify-content: space-between ;
+    align-items: center ;
+    flex-wrap: wrap ;
+    padding: 2rem ;
 }
 .card{
     @include respond-to('small'){
         flex-basis: 100% !important;
     }
     @include respond-to('medium'){
-        flex-basis: 40% !important;
-        width: 100% !important;
+        flex-basis: 40% ;
+        width: 100% ;
     }
     flex-basis: 21% ;
     margin: 1.5rem 1rem;

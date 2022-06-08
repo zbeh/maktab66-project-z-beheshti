@@ -97,7 +97,7 @@ export default function Quantity() {
         </Typography>
         <Button
           variant="contained"
-          sx={{ p: ".5rem 2rem", fontWeight: "bold" }}
+          className={quantityStyles.btn}
           onClick={handleClick}
         >
           ذخیره

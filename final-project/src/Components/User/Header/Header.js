@@ -7,7 +7,7 @@ import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 import Badge from "@mui/material/Badge";
 export default function Header() {
   const info = useSelector((state) => state.basket.orderItems);
-  console.log(info);
+  // console.log(info);
 
   let orders = info ? info.length : 0;
   const location = window.location;

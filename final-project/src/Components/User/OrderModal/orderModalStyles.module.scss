@@ -1,3 +1,4 @@
+@import '../../../Style/variables';
 .tcontainer{
     width: 600px !important;
     height: 500px!important;
@@ -21,6 +22,7 @@
      flex-basis: 40%;
  }
  .add{
+     background-color: $main !important;
     padding: .5rem 2rem !important;
     font-size: bold !important;
  }
